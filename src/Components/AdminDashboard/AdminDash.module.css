@@ -32,3 +32,24 @@
   width: 2.5rem;
   height: 2.5rem;
 }
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin-top: 5rem;
+  /* background-color: white; */
+  /* width: fit-content; */
+}
+.list .order {
+  background-color: white;
+  box-shadow: 5px 5px 8px 3px rgb(167, 162, 162);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22.5%rem;
+  height: 12rem;
+  margin: 2rem;
+  border-radius: 2rem;
+  color: tomato;
+}

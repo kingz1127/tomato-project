@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 
 export default function AdminDash() {
   const [customers, setCustomers] = useState(0);
-
   const loadCustomers = () => {
     const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
     setCustomers(storedUsers.length);
@@ -35,16 +34,20 @@ export default function AdminDash() {
           <IoIosNotificationsOutline className={styles.icons} />
         </div>
       </div>
-
+      <h1>Welcome Admin</h1>
       <div className={styles.list}>
-        <h1>Orders </h1>
-        <h1>Products</h1>
-        <h1>Customers {customers}</h1>
-        <h1>Employee</h1>
-        <h1>Billings</h1>
-        <h1>Analytics</h1>
-        <h1>Settings</h1>
-        <h1>Help</h1>
+        <div className={styles.order}>
+          <h1>Orders </h1>
+        </div>
+
+        <h1 className={styles.order}>Products</h1>
+        <h1 className={styles.order}>Customers {customers}</h1>
+        <h1 className={styles.order}>Employee</h1>
+        <h1 className={styles.order}>Billings</h1>
+        <h1 className={styles.order}>Analytics</h1>
+        <h1 className={styles.order}>Settings</h1>
+        <h1 className={styles.order}>Help</h1>
+        <h1 className={styles.order}>Log Out</h1>
       </div>
     </>
   );

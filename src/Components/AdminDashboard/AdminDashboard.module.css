@@ -11,7 +11,8 @@
   display: flex;
   column-gap: 2rem;
   border-radius: 2rem;
-  background-color: rgb(237, 232, 232);
+  /* background-color: rgb(237, 232, 232); */
+  box-shadow: 5px 5px 8px 3px rgb(167, 162, 162);
   width: 120rem;
   height: 65rem;
   border-radius: 2rem;
@@ -20,7 +21,7 @@
   margin-top: 1rem;
 }
 .contentDashboard {
-  background-color: rgba(197, 193, 193, 0.8);
+  /* background-color: rgba(197, 193, 193, 0.8); */
   border-radius: 0 2rem 2rem 0;
   width: 100%;
   padding-top: 1rem;
