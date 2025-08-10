@@ -34,7 +34,7 @@ export default function AdminDash() {
           <IoIosNotificationsOutline className={styles.icons} />
         </div>
       </div>
-      <h1>Welcome Admin</h1>
+
       <div className={styles.list}>
         <div className={styles.order}>
           <h1>Orders </h1>
