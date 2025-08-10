@@ -1,0 +1,27 @@
+.Background {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  /* margin: auto 0; */
+  width: 100vw;
+  height: 100vh;
+  /* background-color: rgb(126, 124, 124); */
+}
+.Admin {
+  display: flex;
+  column-gap: 2rem;
+  border-radius: 2rem;
+  background-color: rgb(237, 232, 232);
+  width: 120rem;
+  height: 65rem;
+  border-radius: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+.contentDashboard {
+  background-color: rgba(197, 193, 193, 0.8);
+  border-radius: 0 2rem 2rem 0;
+  width: 100%;
+  padding-top: 1rem;
+}

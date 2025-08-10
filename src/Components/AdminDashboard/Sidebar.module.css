@@ -1,0 +1,50 @@
+.sidebarAdmin {
+  display: flex;
+  align-items: center;
+  text-align: justify;
+  flex-direction: column;
+  padding-top: 1rem;
+  padding-left: 2rem;
+  background-color: rgb(235, 231, 231);
+  color: white;
+  /* height: 90vh; */
+  width: 18%;
+  row-gap: 2rem;
+  box-shadow: 2px 3px 5px rgb(121, 117, 117);
+  border-radius: 2rem 0 0 2rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.tomatoSide {
+  color: tomato;
+}
+.sidebarAdmin a {
+  text-decoration: none;
+  /* color: black; */
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: block;
+  font-size: 1.3rem;
+  transition: background-color 0.3s ease;
+}
+
+.sidebarAdmin a:hover {
+  background-color: rgba(100, 98, 98, 0.2);
+}
+
+.active {
+  background-color: rgb(118, 135, 248);
+  width: 15rem;
+  height: 4rem;
+  color: white;
+}
+.activeImg a {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+.activeImgLog a {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  margin-top: 8rem;
+}

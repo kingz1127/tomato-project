@@ -1,0 +1,34 @@
+.AdminDashhead {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+.searchBar {
+  /* background-color: white; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(20% + 5rem);
+  padding-left: 3rem;
+  /* border-radius: 2rem; */
+  height: 3rem;
+}
+.searchBar input {
+  height: 2.5rem;
+  width: calc(100% + 10rem);
+  padding-left: 4rem;
+  border-radius: 2rem;
+}
+.searchBar .iconSearch {
+  margin-right: 18rem;
+  position: absolute;
+}
+.mailNot {
+  display: flex;
+  column-gap: 2rem;
+}
+.icons {
+  color: rgb(93, 90, 90);
+  width: 2.5rem;
+  height: 2.5rem;
+}

@@ -1,0 +1,77 @@
+.signUpBody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+  background-color: rgb(180, 170, 170);
+  box-shadow: 12px 12px 10px rgba(0, 0, 0, 0.2);
+  margin-left: 12rem;
+  margin-right: 12rem;
+  height: 80vh;
+  border-radius: 5rem;
+}
+.welcome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.welcome,
+img {
+  border-radius: 3rem 0 0 3rem;
+  box-shadow: 2px 12px 12px 10px rgba(0, 0, 0, 0.2);
+}
+.signUp {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: 40rem;
+  border-radius: 0 3rem 3rem 0;
+  height: 45rem;
+  box-shadow: 12px 12px 12px 10px rgba(0, 0, 0, 0.2);
+}
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+.signUph1 {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  color: white;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.signUph1 img {
+  border-radius: 50%;
+}
+input {
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: linear-gradient(
+    rgba(236, 238, 236, 0.9),
+    rgba(218, 222, 218, 0.9)
+  );
+}
+button {
+  width: 8rem;
+  height: 2rem;
+  border-radius: 2rem;
+  background-color: rgb(192, 201, 205);
+  color: white;
+  border: none;
+}
+button:hover {
+  transition: transform 0.95s ease-in;
+  transform: scale(1.1);
+  cursor: pointer;
+  background-color: rgb(69, 69, 232);
+}
+p {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
