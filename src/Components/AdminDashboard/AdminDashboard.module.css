@@ -1,6 +1,6 @@
 .Background {
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: center;
   /* margin: auto 0; */
   width: 100vw;

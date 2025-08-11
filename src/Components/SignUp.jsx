@@ -18,24 +18,6 @@ export default function SignUp() {
     password,
   };
 
-  // function handleSignUp(e) {
-  //   e.preventDefault();
-  //   // todo check user
-
-  //   setError({
-  //     firstName: firstName ? "" : "First Name cannot be empty!",
-  //     lastName: lastName ? "" : "Last Name cannot be empty!",
-  //     email: email ? "" : "Email cannot be empty!",
-  //     password: password ? "" : "Password cannot be empty!",
-  //   });
-
-  //   if (firstName && lastName && email && password) {
-  //     localStorage.setItem("myUsers", JSON.stringify(myFirstReact));
-  //     navigate("/login");
-  //   }
-
-  //   console.log(myFirstReact);
-  // }
   function handleSignUp(e) {
     e.preventDefault();
 
@@ -47,7 +29,6 @@ export default function SignUp() {
     });
 
     if (firstName && lastName && email && password) {
-      // Try to parse stored data
       let storedUsers = [];
       try {
         const data = JSON.parse(localStorage.getItem("myUsers"));
@@ -58,6 +39,16 @@ export default function SignUp() {
         console.error("Invalid data in myUsers, resetting...");
       }
 
+      // Check if email already exists
+      const emailExists = storedUsers.some(
+        (user) => user.email.toLowerCase() === email.toLowerCase()
+      );
+
+      if (emailExists) {
+        alert("This email is already registered!");
+        return; // Stop registration
+      }
+
       // Create new user
       const newUser = { firstName, lastName, email, password };
       const updatedUsers = [...storedUsers, newUser];
@@ -65,7 +56,7 @@ export default function SignUp() {
       // Save updated array
       localStorage.setItem("myUsers", JSON.stringify(updatedUsers));
 
-      // Optional: notify admin dashboard
+      // Notify Customer page
       window.dispatchEvent(new Event("storage"));
 
       navigate("/login");
