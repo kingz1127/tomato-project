@@ -86,28 +86,32 @@ export default function SignUp() {
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="First Name"
           />
-          {error.firstName && <p style={{ color: "red" }}>{error}</p>}
+          {/* {error.firstName && <p style={{ color: "red" }}>{error}</p>} */}
+          {error.firstName && <p style={{ color: "red" }}>{error.firstName}</p>}
           <input
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Last Name"
           />
-          {error.lastName && <p style={{ color: "red" }}>{error}</p>}
+          {/* {error.lastName && <p style={{ color: "red" }}>{error}</p>} */}
+          {error.lastName && <p style={{ color: "red" }}>{error.lastName}</p>}
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
           />
-          {error.email && <p style={{ color: "red" }}>{error}</p>}
+          {/* {error.email && <p style={{ color: "red" }}>{error}</p>} */}
+          {error.email && <p style={{ color: "red" }}>{error.email}</p>}
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
-          {error.password && <p style={{ color: "red" }}>{error}</p>}
+          {/* {error.password && <p style={{ color: "red" }}>{error}</p>} */}
+          {error.password && <p style={{ color: "red" }}>{error.password}</p>}
           <button type="submit">Sign Up</button>
         </form>
 
