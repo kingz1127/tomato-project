@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import NavBar from "./NavBar";
+import Header from "./header";
+import styles from "./Demo.module.css";
+import ExploreMenu from "./ExploreMenu";
 
 export default function Demo() {
   const [products, setProducts] = useState([]);
@@ -50,19 +54,20 @@ export default function Demo() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <div>This is my Landing page</div>
-      <p>login to join us.</p>
-      <Link
-        to="/signup"
-        style={{ textDecoration: "none", color: "blue", cursor: "pointer" }}
-      >
-        <p>Sign up!</p>
-      </Link>
+    <div className={styles.Demo}>
+      <NavBar />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Header />
 
-      <h3 style={{ marginBottom: "20px", color: "#333" }}>
+      {/* <h3 style={{ marginBottom: "20px", color: "#333" }}>
         Available Products
-      </h3>
+      </h3> */}
+      <ExploreMenu />
 
       {products.length > 0 ? (
         <ul style={cardStyles}>

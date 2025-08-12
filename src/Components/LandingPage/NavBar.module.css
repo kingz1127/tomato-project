@@ -1,0 +1,46 @@
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 97.4%;
+  height: 8rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  position: fixed;
+  background-color: rgba(236, 234, 232, 0.9);
+  border-radius: 1rem 1rem 0 0;
+  margin-top: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  /* margin-top: -4rem; */
+}
+.navBarName {
+  color: tomato;
+}
+.navhomes {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+  font-size: 1.8rem;
+  color: #49557e;
+}
+.navhomes a {
+  text-decoration: none;
+  color: #49557e;
+}
+.navbarIcons {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+  color: #49557e;
+}
+.navbarIcons a {
+  border: 1px solid tomato;
+  width: 10rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2rem;
+  text-decoration: none;
+  color: #49557e;
+}
