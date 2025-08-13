@@ -1,3 +1,6 @@
+import { MdOutlineNavigateBefore } from "react-icons/md";
+import { MdOutlineNavigateNext } from "react-icons/md";
+import { BiArrowBack } from "react-icons/bi";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useState, useEffect } from "react";
@@ -20,7 +23,6 @@ export default function Product() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [debugInfo, setDebugInfo] = useState("");
   const productsPerPage = 10;
 
   // Load products from localStorage on mount
@@ -33,16 +35,11 @@ export default function Product() {
         const parsedProducts = JSON.parse(storedProducts);
         console.log("Parsed products:", parsedProducts);
         setProducts(parsedProducts);
-        setDebugInfo(
-          `Loaded ${parsedProducts.length} products from localStorage`
-        );
       } else {
         console.log("No products found in localStorage");
-        setDebugInfo("No products found in localStorage");
       }
     } catch (e) {
       console.error("Error loading products from localStorage", e);
-      setDebugInfo(`Error loading: ${e.message}`);
     }
   }, []);
 
@@ -52,10 +49,8 @@ export default function Product() {
       try {
         localStorage.setItem("products", JSON.stringify(products));
         console.log("Saved products to localStorage:", products);
-        setDebugInfo(`Saved ${products.length} products to localStorage`);
       } catch (e) {
         console.error("Error saving to localStorage:", e);
-        setDebugInfo(`Error saving: ${e.message}`);
       }
     }
   }, [products]);
@@ -181,7 +176,7 @@ export default function Product() {
                 <img
                   src={product.image}
                   alt={product.name}
-                  style={{ width: "30px", height: "30px", objectFit: "cover" }}
+                  // style={{ width: "30px", height: "30px", objectFit: "cover" }}
                   onError={(e) => {
                     e.target.src =
                       "https://via.placeholder.com/50x50?text=No+Image";
@@ -234,19 +229,52 @@ export default function Product() {
       {totalPages > 1 && (
         <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
           <button
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(63, 109, 235, 1)",
+              height: "2.5rem",
+              width: "5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            {"<"}
+            {<MdOutlineNavigateBefore style={{ fontSize: "3rem" }} />}
           </button>
-          <span>{currentPage}</span>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgb(58, 106, 236)",
+              height: "2.5rem",
+              width: "2.5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
+          >
+            {currentPage}
+          </span>
           <button
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgb(58, 106, 236)",
+              height: "2.5rem",
+              width: "5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
             onClick={() =>
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
           >
-            {">"}
+            {<MdOutlineNavigateNext style={{ fontSize: "3rem" }} />}
           </button>
         </div>
       )}

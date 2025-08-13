@@ -4,9 +4,22 @@ import NavBar from "./NavBar";
 import Header from "./header";
 import styles from "./Demo.module.css";
 import ExploreMenu from "./ExploreMenu";
+import Footer from "./Footer";
+import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 
 export default function Demo() {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 16;
+
+  // Pagination calculations
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
@@ -20,6 +33,7 @@ export default function Demo() {
     padding: "20px",
     listStyle: "none",
     margin: 0,
+    position: "sticky",
   };
 
   const productCardStyles = {
@@ -34,22 +48,22 @@ export default function Demo() {
 
   const imageStyles = {
     width: "100%",
-    height: "200px",
+    // height: "50px",
     objectFit: "cover",
     borderRadius: "4px",
     marginBottom: "10px",
   };
 
   const priceStyles = {
-    fontSize: "1.2rem",
+    fontSize: "3rem",
     fontWeight: "bold",
-    color: "#007bff",
+    color: "tomato",
     marginTop: "5px",
   };
 
   const quantityStyles = {
-    fontSize: "0.9rem",
-    color: "#666",
+    fontSize: "1.5rem",
+    color: "#08bd11ff",
     marginTop: "5px",
   };
 
@@ -71,14 +85,16 @@ export default function Demo() {
 
       {products.length > 0 ? (
         <ul style={cardStyles}>
-          {products.map((p, index) => (
+          {currentProducts.map((p, index) => (
             <li
               key={p.id || index}
               style={productCardStyles}
               onMouseEnter={(e) =>
-                (e.target.style.transform = "translateY(-2px)")
+                (e.currentTarget.style.transform = "translateY(-2px)")
               }
-              onMouseLeave={(e) => (e.target.style.transform = "translateY(0)")}
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
             >
               <img
                 src={p.image}
@@ -89,12 +105,13 @@ export default function Demo() {
                     "https://via.placeholder.com/300x200?text=No+Image+Available";
                 }}
               />
-              <h4 style={{ margin: "10px 0 5px 0", color: "#333" }}>
+              <h2 style={{ margin: "10px 0 5px 0", color: "#333" }}>
                 {p.name}
-              </h4>
+              </h2>
               <p style={priceStyles}>${p.price}</p>
               <p style={quantityStyles}>Quantity: {p.quantity}</p>
               <p>{p.description}</p>
+              <button>Add to Cart</button>
             </li>
           ))}
         </ul>
@@ -114,6 +131,65 @@ export default function Demo() {
           </p>
         </div>
       )}
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+          <button
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(63, 109, 235, 1)",
+              height: "2.5rem",
+              width: "5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            {<MdOutlineNavigateBefore style={{ fontSize: "3rem" }} />}
+          </button>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgb(58, 106, 236)",
+              height: "2.5rem",
+              width: "2.5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
+          >
+            {currentPage}
+          </span>
+          <button
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgb(58, 106, 236)",
+              height: "2.5rem",
+              width: "5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          >
+            {<MdOutlineNavigateNext style={{ fontSize: "3rem" }} />}
+          </button>
+        </div>
+      )}
+      <p>
+        showing {currentPage} to 16 of {totalPages} pages
+      </p>
+
+      <Footer />
     </div>
   );
 }

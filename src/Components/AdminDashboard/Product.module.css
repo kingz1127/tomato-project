@@ -18,10 +18,50 @@
 }
 .table {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  border: 2px solid rgb(71, 126, 255);
-  border-radius: 2rem;
-  width: 100%;
+  width: 98%;
+  height: 10rem;
   text-align: center;
+  border-collapse: separate; /* allow rounded corners */
+  border-spacing: 0; /* remove spacing gap */
+  box-shadow: 1px 1px 1px 0px rgb(207, 205, 205, 0.9);
+  border-radius: 2rem 2rem 0 0;
 }
+/* Header row */
 .table thead th {
+  background-color: rgb(249, 247, 247);
+  border: 1px solid #baaeae;
+  height: 5rem;
+}
+
+/* Rounded corners for thead */
+.table thead th:first-child {
+  border-top-left-radius: 2rem;
+}
+
+.table thead th:last-child {
+  border-top-right-radius: 2rem;
+}
+
+/* Body rows */
+.table tbody td {
+  background-color: rgb(226, 224, 224);
+  border-top: 1px solid #f0ecec;
+  border-bottom: 1px solid #b9b4b4;
+}
+.table tbody {
+  border-spacing: 0 10px; /* Apply gap only in tbody */
+  display: table-row-group; /* Keep table behavior */
+}
+.table tbody img {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+}
+.span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: rgb(58, 106, 236);
 }
