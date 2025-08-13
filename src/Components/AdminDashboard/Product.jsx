@@ -1,5 +1,4 @@
-import { MdOutlineNavigateBefore } from "react-icons/md";
-import { MdOutlineNavigateNext } from "react-icons/md";
+import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 import { BiArrowBack } from "react-icons/bi";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -242,7 +241,7 @@ export default function Product() {
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            {<MdOutlineNavigateBefore style={{ fontSize: "3rem" }} />}
+            {<MdOutlineNavigateBefore />}
           </button>
           <span
             style={{
@@ -274,7 +273,7 @@ export default function Product() {
             }
             disabled={currentPage === totalPages}
           >
-            {<MdOutlineNavigateNext style={{ fontSize: "3rem" }} />}
+            {<MdOutlineNavigateNext />}
           </button>
         </div>
       )}

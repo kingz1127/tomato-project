@@ -1,8 +1,27 @@
 import { useEffect, useState } from "react";
+import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
+import Footer from "../LandingPage/Footer";
+import Header from "../LandingPage/header";
+import ExploreMenu from "../LandingPage/ExploreMenu";
+import AppDownload from "../LandingPage/AppDownload";
+import stylesp from "./Homepage.module.css";
+import NavbarHome from "./NavbarHome";
 
 export default function Homepage() {
   const [profile, setProfile] = useState(null);
   const [products, setProducts] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 16;
+
+  // Pagination calculations
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   useEffect(() => {
     const storedProfile = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -53,8 +72,22 @@ export default function Homepage() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h2 style={{ marginBottom: "30px", color: "#333" }}>
+    <div
+      style={{
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        paddingBottom: "20px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <NavbarHome />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <h2 style={{ color: "#333" }}>
         Welcome{" "}
         {profile ? (
           <span style={{ color: "#007bff" }}>
@@ -64,22 +97,14 @@ export default function Homepage() {
           <span>Guest</span>
         )}
       </h2>
-
-      <h3 style={{ marginBottom: "20px", color: "#333" }}>
-        Available Products
-      </h3>
+      <br />
+      <Header />
+      <ExploreMenu />
 
       {products.length > 0 ? (
         <ul style={cardStyles}>
-          {products.map((p, index) => (
-            <li
-              key={p.id || index}
-              style={productCardStyles}
-              onMouseEnter={(e) =>
-                (e.target.style.transform = "translateY(-2px)")
-              }
-              onMouseLeave={(e) => (e.target.style.transform = "translateY(0)")}
-            >
+          {currentProducts.map((p, index) => (
+            <li key={p.id || index} style={productCardStyles}>
               <img
                 src={p.image}
                 alt={p.name}
@@ -89,12 +114,13 @@ export default function Homepage() {
                     "https://via.placeholder.com/300x200?text=No+Image+Available";
                 }}
               />
-              <h4 style={{ margin: "10px 0 5px 0", color: "#333" }}>
+              <h2 style={{ margin: "10px 0 5px 0", color: "#333" }}>
                 {p.name}
-              </h4>
+              </h2>
               <p style={priceStyles}>${p.price}</p>
               <p style={quantityStyles}>Quantity: {p.quantity}</p>
               <p>{p.description}</p>
+              <button>Add to Cart</button>
             </li>
           ))}
         </ul>
@@ -114,6 +140,67 @@ export default function Homepage() {
           </p>
         </div>
       )}
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className={stylesp.pageination}>
+          <button
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(63, 109, 235, 1)",
+              height: "2.5rem",
+              width: "5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            {<MdOutlineNavigateBefore style={{ fontSize: "3rem" }} />}
+          </button>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgb(58, 106, 236)",
+              height: "2.5rem",
+              width: "2.5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
+          >
+            {currentPage}
+          </span>
+          <button
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgb(58, 106, 236)",
+              height: "2.5rem",
+              width: "5rem",
+              color: "white",
+              borderRadius: "3px",
+            }}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          >
+            {<MdOutlineNavigateNext style={{ fontSize: "3rem" }} />}
+          </button>
+        </div>
+      )}
+      <p className={stylesp.pageinationp}>
+        showing {currentPage} to 16 of {totalPages} pages
+      </p>
+      <AppDownload />
+      <Footer />
     </div>
+    // )}
+    // </div>
   );
 }

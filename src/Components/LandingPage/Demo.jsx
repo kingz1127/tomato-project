@@ -6,6 +6,7 @@ import styles from "./Demo.module.css";
 import ExploreMenu from "./ExploreMenu";
 import Footer from "./Footer";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
+import AppDownload from "./AppDownload";
 
 export default function Demo() {
   const [products, setProducts] = useState([]);
@@ -33,7 +34,6 @@ export default function Demo() {
     padding: "20px",
     listStyle: "none",
     margin: 0,
-    position: "sticky",
   };
 
   const productCardStyles = {
@@ -78,24 +78,12 @@ export default function Demo() {
       <br />
       <Header />
 
-      {/* <h3 style={{ marginBottom: "20px", color: "#333" }}>
-        Available Products
-      </h3> */}
       <ExploreMenu />
 
       {products.length > 0 ? (
         <ul style={cardStyles}>
           {currentProducts.map((p, index) => (
-            <li
-              key={p.id || index}
-              style={productCardStyles}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "translateY(-2px)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "translateY(0)")
-              }
-            >
+            <li key={p.id || index} style={productCardStyles}>
               <img
                 src={p.image}
                 alt={p.name}
@@ -111,7 +99,10 @@ export default function Demo() {
               <p style={priceStyles}>${p.price}</p>
               <p style={quantityStyles}>Quantity: {p.quantity}</p>
               <p>{p.description}</p>
-              <button>Add to Cart</button>
+
+              <Link to="/signup">
+                <button>Add to Cart</button>
+              </Link>
             </li>
           ))}
         </ul>
@@ -134,7 +125,7 @@ export default function Demo() {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+        <div className={styles.pageination}>
           <button
             style={{
               display: "flex",
@@ -185,10 +176,10 @@ export default function Demo() {
           </button>
         </div>
       )}
-      <p>
+      <p className={styles.pageinationp}>
         showing {currentPage} to 16 of {totalPages} pages
       </p>
-
+      <AppDownload />
       <Footer />
     </div>
   );

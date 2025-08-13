@@ -43,29 +43,3 @@
   text-decoration: none;
   color: #49557e;
 }
-/* Add these to your existing NavBar.module.css */
-
-.cartIconContainer {
-  position: relative;
-  display: inline-block;
-}
-
-.cartBadge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-}
-.navbarIcons .a a {
-  text-decoration: none;
-  border: none;
-}
