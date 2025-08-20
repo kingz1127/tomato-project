@@ -12,7 +12,7 @@ const Header = () => {
           your cravings and elevate your dining experience one delicious meal at
           a time.
         </p>
-        <button>View Menu</button>
+        {/* <button>View Menu</button> */}
       </div>
     </div>
   );
