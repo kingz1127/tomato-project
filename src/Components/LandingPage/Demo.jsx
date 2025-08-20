@@ -10,22 +10,29 @@ import AppDownload from "./AppDownload";
 
 export default function Demo() {
   const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState("All"); // ✅ Category state
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 16;
-
-  // Pagination calculations
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-  const totalPages = Math.ceil(products.length / productsPerPage);
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
     setProducts(storedProducts);
   }, []);
+
+  // Filter products based on selected category
+  const filteredProducts =
+    category === "All"
+      ? products
+      : products.filter((p) => p.category === category);
+
+  // Pagination calculations
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const cardStyles = {
     display: "grid",
@@ -48,22 +55,21 @@ export default function Demo() {
 
   const imageStyles = {
     width: "100%",
-    // height: "50px",
     objectFit: "cover",
     borderRadius: "4px",
     marginBottom: "10px",
   };
 
   const priceStyles = {
-    fontSize: "3rem",
+    fontSize: "1.7rem",
     fontWeight: "bold",
-    color: "tomato",
+    color: "#007bff",
     marginTop: "5px",
   };
 
   const quantityStyles = {
     fontSize: "1.5rem",
-    color: "#08bd11ff",
+    color: "#666",
     marginTop: "5px",
   };
 
@@ -78,9 +84,10 @@ export default function Demo() {
       <br />
       <Header />
 
-      <ExploreMenu />
+      {/* Pass category state to ExploreMenu */}
+      <ExploreMenu category={category} setCategory={setCategory} />
 
-      {products.length > 0 ? (
+      {currentProducts.length > 0 ? (
         <ul style={cardStyles}>
           {currentProducts.map((p, index) => (
             <li key={p.id || index} style={productCardStyles}>
@@ -177,8 +184,9 @@ export default function Demo() {
         </div>
       )}
       <p className={styles.pageinationp}>
-        showing {currentPage} to 16 of {totalPages} pages
+        showing {currentPage} to {productsPerPage} of {totalPages} pages
       </p>
+
       <AppDownload />
       <Footer />
     </div>

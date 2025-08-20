@@ -11,6 +11,7 @@ const ExploreMenu = ({ category, setCategory }) => {
         mission is to satisfy your cravings and elevate your dining experience,
         one delicious meal at a time.
       </p>
+
       <div className="explore-menu-list">
         {menu_list.map((item, index) => {
           return (
@@ -26,14 +27,30 @@ const ExploreMenu = ({ category, setCategory }) => {
               <img
                 className={category === item.menu_name ? "active" : ""}
                 src={item.menu_image}
-                alt=""
+                alt={item.menu_name}
               />
               <p>{item.menu_name}</p>
             </div>
           );
         })}
       </div>
+
       <hr />
+
+      <button
+        onClick={() => setCategory("All")}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#354bdc",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          marginTop: "10px",
+        }}
+      >
+        Show All Products
+      </button>
     </div>
   );
 };

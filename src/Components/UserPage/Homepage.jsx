@@ -16,17 +16,11 @@ export default function Homepage() {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 16;
 
+  const [category, setCategory] = useState("All");
+
   const { addToCart } = useStoreContext();
 
-  // Pagination calculations
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-  const totalPages = Math.ceil(products.length / productsPerPage);
-
+  // Load profile + products from localStorage
   useEffect(() => {
     const storedProfile = JSON.parse(localStorage.getItem("loggedInUser"));
     setProfile(storedProfile);
@@ -34,6 +28,23 @@ export default function Homepage() {
     const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
     setProducts(storedProducts);
   }, []);
+
+  // ✅ Filter products based on category
+  const filteredProducts =
+    category === "All"
+      ? products
+      : products.filter(
+          (p) => p.category?.toLowerCase() === category.toLowerCase()
+        );
+
+  // Pagination calculations (done on filtered products)
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const cardStyles = {
     display: "grid",
@@ -55,15 +66,19 @@ export default function Homepage() {
   };
 
   const imageStyles = {
+    // width: "100%",
+    // height: "25rem",
+    // objectFit: "contain",
+    // borderRadius: "4px",
+    // marginBottom: "10px",
     width: "100%",
-    height: "200px",
     objectFit: "cover",
     borderRadius: "4px",
     marginBottom: "10px",
   };
 
   const priceStyles = {
-    fontSize: "1.2rem",
+    fontSize: "1.7rem",
     fontWeight: "bold",
     color: "#007bff",
     marginTop: "5px",
@@ -103,9 +118,10 @@ export default function Homepage() {
       </h2>
       <br />
       <Header />
-      <ExploreMenu />
+      {/* Pass category + setCategory to ExploreMenu */}
+      <ExploreMenu category={category} setCategory={setCategory} />
 
-      {products.length > 0 ? (
+      {filteredProducts.length > 0 ? (
         <ul style={cardStyles}>
           {currentProducts.map((p, index) => (
             <li key={p.id || index} style={productCardStyles}>
@@ -124,7 +140,15 @@ export default function Homepage() {
               <p style={priceStyles}>${p.price}</p>
               <p style={quantityStyles}>Quantity: {p.quantity}</p>
               <p>{p.description}</p>
-              <button onClick={() => addToCart(p)}>Add to Cart</button>
+              <button
+                onClick={() => {
+                  addToCart(p);
+                  alert(`${p.name} added to cart!`);
+                }}
+                className={stylesp.addtoCart}
+              >
+                Add to Cart
+              </button>
             </li>
           ))}
         </ul>
@@ -199,12 +223,10 @@ export default function Homepage() {
         </div>
       )}
       <p className={stylesp.pageinationp}>
-        showing {currentPage} to 16 of {totalPages} pages
+        showing {currentPage} to {productsPerPage} of {totalPages} pages
       </p>
       <AppDownload />
       <Footer />
     </div>
-    // )}
-    // </div>
   );
 }
