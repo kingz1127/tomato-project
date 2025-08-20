@@ -1,45 +1,85 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const StoreContext = createContext();
 
-export const StoreContextProvider = ({ children }) => {
+export const StoreContextProvider = ({ children, currentUser }) => {
+  const userKey = currentUser?.email || "guest"; // use email or id
   const [cartItems, setCartItems] = useState({});
-  const [foodList, setFoodList] = useState([]);
 
-  const addToCart = (itemId) => {
-    setCartItems((prev) => ({
-      ...prev,
-      [itemId]: (prev[itemId] || 0) + 1,
-    }));
+  // Load cart for logged-in user from localStorage
+  useEffect(() => {
+    const storedCart =
+      JSON.parse(localStorage.getItem(`cart_${userKey}`)) || {};
+    setCartItems(storedCart);
+  }, [userKey]);
+
+  // Save cart to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem(`cart_${userKey}`, JSON.stringify(cartItems));
+  }, [cartItems, userKey]);
+
+  const addToCart = (item) => {
+    setCartItems((prev) => {
+      const existingItem = prev[item.id];
+      if (existingItem) {
+        return {
+          ...prev,
+          [item.id]: {
+            ...existingItem,
+            quantity: existingItem.quantity + 1,
+          },
+        };
+      } else {
+        return {
+          ...prev,
+          [item.id]: { ...item, quantity: 1 },
+        };
+      }
+    });
   };
 
   const removeFromCart = (itemId) => {
     setCartItems((prev) => {
-      const newCart = { ...prev };
-      if (newCart[itemId] > 1) {
-        newCart[itemId] -= 1;
-      } else {
-        delete newCart[itemId];
+      const updated = { ...prev };
+      delete updated[itemId];
+      return updated;
+    });
+  };
+
+  const incrementQuantity = (itemId) => {
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: { ...prev[itemId], quantity: prev[itemId].quantity + 1 },
+    }));
+  };
+
+  const decrementQuantity = (itemId) => {
+    setCartItems((prev) => {
+      if (prev[itemId].quantity > 1) {
+        return {
+          ...prev,
+          [itemId]: { ...prev[itemId], quantity: prev[itemId].quantity - 1 },
+        };
       }
-      return newCart;
+      return prev;
     });
   };
 
   const getTotalCartAmount = () => {
-    return Object.entries(cartItems).reduce((total, [itemId, quantity]) => {
-      const item = foodList.find((product) => product._id === itemId);
-      return total + (item?.price || 0) * quantity;
-    }, 0);
+    return Object.values(cartItems).reduce(
+      (total, item) => total + Number(item.price) * item.quantity,
+      0
+    );
   };
 
   return (
     <StoreContext.Provider
       value={{
         cartItems,
-        food_list: foodList,
-        setFoodList,
         addToCart,
         removeFromCart,
+        incrementQuantity,
+        decrementQuantity,
         getTotalCartAmount,
       }}
     >

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import styles from "./SignUp.module.css";
 import { Link, useNavigate } from "react-router-dom";
+import NavBar from "./LandingPage/NavBar";
+import Footer from "./LandingPage/Footer";
+import AppDownload from "./LandingPage/AppDownload";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -64,66 +67,75 @@ export default function SignUp() {
   }
 
   return (
-    <div className={styles.signUpBody}>
-      <div className={styles.welcome}>
-        <img src="src/Components/food.jpg" alt="" height="450" width="350" />
+    <>
+      <div className={styles.NavBar}>
+        <NavBar />
       </div>
+      <div className={styles.signUpBody}>
+        <div className={styles.welcome}>
+          <img src="src/Components/food.jpg" alt="" height="450" width="350" />
+        </div>
 
-      <div className={styles.signUp}>
-        <h1 className={styles.signUph1}>
-          <img
-            src="src/Components/restaurantLogo.jpg"
-            alt=""
-            width="40"
-            height="40"
-          />
-          Sign Up
-        </h1>
-        <form className={styles.signUpForm} onSubmit={(e) => handleSignUp(e)}>
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="First Name"
-          />
-          {/* {error.firstName && <p style={{ color: "red" }}>{error}</p>} */}
-          {error.firstName && <p style={{ color: "red" }}>{error.firstName}</p>}
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last Name"
-          />
-          {/* {error.lastName && <p style={{ color: "red" }}>{error}</p>} */}
-          {error.lastName && <p style={{ color: "red" }}>{error.lastName}</p>}
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-          />
-          {/* {error.email && <p style={{ color: "red" }}>{error}</p>} */}
-          {error.email && <p style={{ color: "red" }}>{error.email}</p>}
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-          />
-          {/* {error.password && <p style={{ color: "red" }}>{error}</p>} */}
-          {error.password && <p style={{ color: "red" }}>{error.password}</p>}
-          <button type="submit">Sign Up</button>
-        </form>
+        <div className={styles.signUp}>
+          <h1 className={styles.signUph1}>
+            <img
+              src="src/Components/restaurantLogo.jpg"
+              alt=""
+              width="40"
+              height="40"
+            />
+            Sign Up
+          </h1>
+          <form className={styles.signUpForm} onSubmit={(e) => handleSignUp(e)}>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First Name"
+            />
+            {/* {error.firstName && <p style={{ color: "red" }}>{error}</p>} */}
+            {error.firstName && (
+              <p style={{ color: "red" }}>{error.firstName}</p>
+            )}
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last Name"
+            />
+            {/* {error.lastName && <p style={{ color: "red" }}>{error}</p>} */}
+            {error.lastName && <p style={{ color: "red" }}>{error.lastName}</p>}
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+            />
+            {/* {error.email && <p style={{ color: "red" }}>{error}</p>} */}
+            {error.email && <p style={{ color: "red" }}>{error.email}</p>}
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+            />
+            {/* {error.password && <p style={{ color: "red" }}>{error}</p>} */}
+            {error.password && <p style={{ color: "red" }}>{error.password}</p>}
+            <button type="submit">Sign Up</button>
+          </form>
 
-        <p>Already have an account?</p>
+          <p>Already have an account?</p>
 
-        <Link
-          to="/login"
-          style={{ textDecoration: "none", color: "blue", cursor: "pointer" }}
-        >
-          <p>Login!</p>
-        </Link>
+          <Link
+            to="/login"
+            style={{ textDecoration: "none", color: "blue", cursor: "pointer" }}
+          >
+            <p>Login!</p>
+          </Link>
+        </div>
       </div>
-    </div>
+      <AppDownload />
+      <Footer />
+    </>
   );
 }

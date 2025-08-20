@@ -13,7 +13,7 @@ export default function NavbarHome() {
         <h1 className={styles.navBarName}>Tomato.</h1>
 
         <div className={styles.navhomes}>
-          <NavLink to="/">
+          <NavLink to="/homepage">
             <p>home</p>
           </NavLink>
           <p>menu</p>

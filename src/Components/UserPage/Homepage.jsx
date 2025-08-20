@@ -7,12 +7,16 @@ import AppDownload from "../LandingPage/AppDownload";
 import stylesp from "./Homepage.module.css";
 import NavbarHome from "./NavbarHome";
 
+import { useStoreContext } from "../context/StoreContext";
+
 export default function Homepage() {
   const [profile, setProfile] = useState(null);
   const [products, setProducts] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 16;
+
+  const { addToCart } = useStoreContext();
 
   // Pagination calculations
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -120,7 +124,7 @@ export default function Homepage() {
               <p style={priceStyles}>${p.price}</p>
               <p style={quantityStyles}>Quantity: {p.quantity}</p>
               <p>{p.description}</p>
-              <button>Add to Cart</button>
+              <button onClick={() => addToCart(p)}>Add to Cart</button>
             </li>
           ))}
         </ul>

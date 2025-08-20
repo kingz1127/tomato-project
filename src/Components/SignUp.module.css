@@ -1,13 +1,20 @@
+.NavBar {
+  /* margin-top: -5rem; */
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
 .signUpBody {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5rem;
-  background-color: rgb(180, 170, 170);
+  margin-top: 12rem;
+  background-color: tomato;
   box-shadow: 12px 12px 10px rgba(0, 0, 0, 0.2);
   margin-left: 12rem;
   margin-right: 12rem;
   height: 80vh;
+  /* top: 52rem; */
   border-radius: 5rem;
 }
 .welcome {
