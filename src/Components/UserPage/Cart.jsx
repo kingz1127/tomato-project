@@ -16,6 +16,21 @@ const Cart = () => {
   } = useStoreContext();
   const navigate = useNavigate();
 
+  // ✅ Proceed to checkout only from Cart
+  const handleProceed = () => {
+    if (Object.values(cartItems).length === 0) {
+      alert("Your cart is empty. Please add items before proceeding.");
+    } else {
+      navigate("/placeorder", {
+        state: {
+          products: Object.values(cartItems), // ✅ match OrderUserPage
+          totalAmount:
+            getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2, // includes delivery fee
+        },
+      });
+    }
+  };
+
   return (
     <>
       <div className="navbar">
@@ -97,9 +112,7 @@ const Cart = () => {
                 </b>
               </div>
             </div>
-            <button onClick={() => navigate("/order")}>
-              PROCEED TO CHECKOUT
-            </button>
+            <button onClick={handleProceed}>PROCEED TO CHECKOUT</button>
           </div>
         </div>
       </div>

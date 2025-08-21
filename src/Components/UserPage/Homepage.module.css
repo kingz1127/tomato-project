@@ -13,10 +13,23 @@
 .addtoCart {
   border: none;
   width: 10rem;
+  height: 3rem;
   background-color: rgb(121, 168, 214);
   border-radius: 4px;
   color: white;
 }
 .addtoCart:hover {
   background-color: tomato;
+}
+.buyNow {
+  border: none;
+  background-color: tomato;
+  width: 10rem;
+  height: 3rem;
+  border-radius: 4px;
+  margin-left: 2rem;
+  color: white;
+}
+.buyNow:hover {
+  background-color: rgb(121, 168, 214);
 }
