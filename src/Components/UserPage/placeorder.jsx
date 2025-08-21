@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./placeorder.css";
+import Footer from "../LandingPage/Footer";
+import NavbarHome from "./NavbarHome";
 
 const Placeorder = () => {
   const location = useLocation();
@@ -45,6 +47,22 @@ const Placeorder = () => {
     }
   }, [products]);
 
+  const handleIncrease = () => {
+    if (orderProducts.length === 1) {
+      const newQty = quantity + 1;
+      setQuantity(newQty);
+      setOrderProducts([{ ...orderProducts[0], quantity: newQty }]);
+    }
+  };
+
+  const handleDecrease = () => {
+    if (orderProducts.length === 1 && quantity > 1) {
+      const newQty = quantity - 1;
+      setQuantity(newQty);
+      setOrderProducts([{ ...orderProducts[0], quantity: newQty }]);
+    }
+  };
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -52,6 +70,7 @@ const Placeorder = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate form fields
     for (let key in formData) {
       if (!formData[key]) {
         alert("Please fill all delivery fields before proceeding.");
@@ -74,22 +93,23 @@ const Placeorder = () => {
       const deliveryFee = orderProducts.length > 0 ? 2 : 0;
       const total = subtotal + deliveryFee;
 
-      localStorage.setItem(
-        `orderSummary_${loggedInUser.email}`,
-        JSON.stringify({
-          products: orderProducts,
-          delivery: formData,
-          subtotal,
-          deliveryFee,
-          total,
-        })
-      );
+      // ✅ Save in allOrders for admin view
+      const allOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
+      allOrders.push({
+        userEmail: loggedInUser.email,
+        products: orderProducts,
+        delivery: formData,
+        subtotal,
+        deliveryFee,
+        total,
+        orderDate: new Date().toLocaleString(),
+      });
+      localStorage.setItem("allOrders", JSON.stringify(allOrders));
     }
 
     window.location.href = "/orderuserpage";
   };
 
-  // Calculate totals
   const subtotal = orderProducts.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -98,119 +118,126 @@ const Placeorder = () => {
   const total = subtotal + deliveryFee;
 
   return (
-    <form className="place-order" onSubmit={handleSubmit}>
-      {/* LEFT SIDE - DELIVERY FORM */}
-      <div className="place-order-left">
-        <p className="title">Delivery Information</p>
-        <div className="multi-fields">
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First name"
-            value={formData.firstName}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last name"
-            value={formData.lastName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email address"
-          value={formData.email}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="street"
-          placeholder="Street"
-          value={formData.street}
-          onChange={handleInputChange}
-        />
-        <div className="multi-fields">
-          <input
-            type="text"
-            name="city"
-            placeholder="City"
-            value={formData.city}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="state"
-            placeholder="State"
-            value={formData.state}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="multi-fields">
-          <input
-            type="text"
-            name="zip"
-            placeholder="Zip code"
-            value={formData.zip}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="country"
-            placeholder="Country"
-            value={formData.country}
-            onChange={handleInputChange}
-          />
-        </div>
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
-          onChange={handleInputChange}
-        />
+    <>
+      <div className="navbar">
+        <NavbarHome />
       </div>
+      <form className="place-order" onSubmit={handleSubmit}>
+        {/* LEFT SIDE - DELIVERY FORM */}
+        <div className="place-order-left">
+          <p className="title">Delivery Information</p>
+          <div className="multi-fields">
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First name"
+              value={formData.firstName}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last name"
+              value={formData.lastName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            name="street"
+            placeholder="Street"
+            value={formData.street}
+            onChange={handleInputChange}
+          />
+          <div className="multi-fields">
+            <input
+              type="text"
+              name="city"
+              placeholder="City"
+              value={formData.city}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="state"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="multi-fields">
+            <input
+              type="text"
+              name="zip"
+              placeholder="Zip code"
+              value={formData.zip}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="country"
+              placeholder="Country"
+              value={formData.country}
+              onChange={handleInputChange}
+            />
+          </div>
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+          />
+        </div>
 
-      {/* RIGHT SIDE - ORDER SUMMARY */}
-      <div className="place-order-right">
-        <div className="cart-total">
-          <h2>Order Summary</h2>
-          {orderProducts.length > 0 ? (
-            <div>
-              {orderProducts.map((item) => (
-                <div key={item.id} className="cart-total-details">
-                  <p>
-                    {item.name} (x{item.quantity})
-                  </p>
-                  <p>${(item.price * item.quantity).toFixed(2)}</p>
+        {/* RIGHT SIDE - ORDER SUMMARY */}
+        <div className="place-order-right">
+          <div className="cart-total">
+            <h2>Order Summary</h2>
+            {orderProducts.length > 0 ? (
+              <div>
+                {orderProducts.map((item) => (
+                  <div key={item.id} className="cart-total-details">
+                    <p>
+                      {item.name} (x{item.quantity})
+                    </p>
+                    <p>${(item.price * item.quantity).toFixed(2)}</p>
+                  </div>
+                ))}
+
+                <hr />
+                <div className="cart-total-details">
+                  <p>Subtotal</p>
+                  <p>${subtotal.toFixed(2)}</p>
                 </div>
-              ))}
-
-              <hr />
-              <div className="cart-total-details">
-                <p>Subtotal</p>
-                <p>${subtotal.toFixed(2)}</p>
+                <hr />
+                <div className="cart-total-details">
+                  <p>Delivery Fee</p>
+                  <p>${deliveryFee}</p>
+                </div>
+                <hr />
+                <div className="cart-total-details">
+                  <b>Total</b>
+                  <b>${total.toFixed(2)}</b>
+                </div>
               </div>
-              <hr />
-              <div className="cart-total-details">
-                <p>Delivery Fee</p>
-                <p>${deliveryFee}</p>
-              </div>
-              <hr />
-              <div className="cart-total-details">
-                <b>Total</b>
-                <b>${total.toFixed(2)}</b>
-              </div>
-            </div>
-          ) : (
-            <p>No product selected.</p>
-          )}
-          <button type="submit">PROCEED TO PAYMENT</button>
+            ) : (
+              <p>No product selected.</p>
+            )}
+            <button type="submit">PROCEED TO PAYMENT</button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+
+      <Footer />
+    </>
   );
 };
 

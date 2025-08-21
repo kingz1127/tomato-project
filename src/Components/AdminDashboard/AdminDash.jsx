@@ -13,6 +13,7 @@ import { CiSettings } from "react-icons/ci";
 export default function AdminDash() {
   const [customers, setCustomers] = useState(0);
   const [products, setProducts] = useState(0);
+  const [orders, setOrders] = useState(0); // ✅ Add orders state
 
   const loadCustomers = () => {
     const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
@@ -20,21 +21,34 @@ export default function AdminDash() {
   };
 
   const loadProducts = () => {
-    const storedUsers = JSON.parse(localStorage.getItem("products")) || [];
-    setProducts(storedUsers.length);
+    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    setProducts(storedProducts.length);
+  };
+
+  const loadOrders = () => {
+    const savedOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
+    setOrders(savedOrders.length);
   };
 
   useEffect(() => {
     loadCustomers(); // Load on mount
     loadProducts();
+    loadOrders(); // ✅ Load orders on mount
 
     // Listen for storage changes
-    window.addEventListener("storage", loadCustomers);
+    const handleStorageChange = () => {
+      loadCustomers();
+      loadOrders();
+      loadProducts();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
-      window.removeEventListener("storage", loadCustomers);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
+
   return (
     <>
       <div className={styles.AdminDashhead}>
@@ -59,7 +73,7 @@ export default function AdminDash() {
             <BiCartAdd className={styles.BiCartAdd} />
           </div>
           <div className={styles.h1p}>
-            <h1>Orders + </h1>
+            <h1>{orders} + </h1> {/* ✅ Updated */}
             <p>Total Orders</p>
           </div>
         </div>
