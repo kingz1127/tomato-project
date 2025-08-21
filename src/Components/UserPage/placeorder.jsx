@@ -93,9 +93,13 @@ const Placeorder = () => {
       const deliveryFee = orderProducts.length > 0 ? 2 : 0;
       const total = subtotal + deliveryFee;
 
+      // ✅ Generate unique order ID
+      const orderId = "ORD-" + Date.now();
+
       // ✅ Save in allOrders for admin view
       const allOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
       allOrders.push({
+        id: orderId, // Unique order ID
         userEmail: loggedInUser.email,
         products: orderProducts,
         delivery: formData,

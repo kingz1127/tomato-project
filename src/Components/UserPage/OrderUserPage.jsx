@@ -31,7 +31,6 @@ export default function OrderUserPage() {
     );
     if (savedOrder) {
       const parsedOrder = JSON.parse(savedOrder);
-      // Support both Cart (products array) and Buy Now (single product)
       if (parsedOrder.products) setProducts(parsedOrder.products);
       else if (parsedOrder.product) setProducts([parsedOrder.product]);
 
@@ -43,6 +42,10 @@ export default function OrderUserPage() {
     setPaymentData({ ...paymentData, [e.target.name]: e.target.value });
   };
 
+  const generateOrderId = () => {
+    return "ORD-" + Date.now(); // Example: ORD-1692215589123
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!paymentData.atmNumber || !paymentData.expDate || !paymentData.cvv) {
@@ -50,6 +53,30 @@ export default function OrderUserPage() {
       return;
     }
     setError("");
+
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!loggedInUser) return;
+
+    const orderId = generateOrderId();
+
+    // ✅ Save order with ID to localStorage
+    const newOrder = {
+      orderId,
+      products,
+      total: totalAmount,
+      email: loggedInUser.email,
+      date: new Date().toISOString(),
+    };
+
+    let allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    allOrders.push(newOrder);
+    localStorage.setItem("orders", JSON.stringify(allOrders));
+
+    // ✅ Alert with order ID
+    alert(
+      `Payment successful! Your Order ID is ${orderId}. Please keep it safe.`
+    );
+
     setShowModal(true);
   };
 
@@ -66,23 +93,6 @@ export default function OrderUserPage() {
       <h2>Payment Information</h2>
 
       <div className={styles.summarypay}>
-        {/* {products.length > 0 ? (
-          <div className={styles.order_summary}>
-            <h3>Order Summary</h3>
-            <ul>
-              {products.map((item, index) => (
-                <li key={index}>
-                  {item.name} - ${item.price} x {item.quantity} = $
-                  {(item.price * item.quantity).toFixed(2)}
-                </li>
-              ))}
-            </ul>
-            <h4>Total: ${totalAmount.toFixed(2)}</h4>
-          </div>
-        ) : (
-          <p>No items found in your order.</p>
-        )} */}
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
