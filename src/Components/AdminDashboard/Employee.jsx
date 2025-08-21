@@ -3,60 +3,74 @@ import styles from "./Employee.module.css";
 
 export default function Employee() {
   const defaultEmployees = [
-    { id: 1, name: "John Ovie", role: "Manager" },
-    { id: 2, name: "Jane Ijeh", role: "Developer" },
-    { id: 3, name: "Michael Johnson", role: "Designer" },
-    { id: 4, name: "Sarah Peace", role: "QA Engineer" },
-    { id: 5, name: "David Adeola", role: "DevOps Engineer" },
-    { id: 6, name: "Emily Adebayo", role: "Product Owner" },
+    { id: "EMP001", name: "John Ovie", role: "Manager", age: 35, state: "Lagos", address: "12 Allen Avenue" },
+    { id: "EMP002", name: "Jane Ijeh", role: "Developer", age: 28, state: "Abuja", address: "45 Garki Road" },
+    { id: "EMP003", name: "Michael Johnson", role: "Designer", age: 30, state: "Oyo", address: "78 Ring Road" },
+    { id: "EMP004", name: "Sarah Peace", role: "QA Engineer", age: 26, state: "Rivers", address: "101 Trans-Amadi" },
+    { id: "EMP005", name: "David Adeola", role: "DevOps Engineer", age: 32, state: "Ogun", address: "15 Abeokuta Street" },
+    { id: "EMP006", name: "Emily Adebayo", role: "Product Owner", age: 29, state: "Kano", address: "33 Zoo Road" },
   ];
 
-  const [employees, setEmployees] = useState([]);
-  const [formData, setFormData] = useState({ name: "", role: "" });
-  const [editingId, setEditingId] = useState(null);
-
-  // Load from localStorage on mount (runs once)
-  useEffect(() => {
+  const [employees, setEmployees] = useState(() => {
     const stored = localStorage.getItem("employees");
-    if (stored) {
-      setEmployees(JSON.parse(stored));
-    } else {
-      setEmployees(defaultEmployees);
-    }
-  }, []); // ✅ stays empty — only run once
+    return stored ? JSON.parse(stored) : defaultEmployees;
+  });
 
-  // Save to localStorage whenever employees change
+  const [formData, setFormData] = useState({
+    name: "",
+    role: "",
+    age: "",
+    state: "",
+    address: "",
+  });
+
+  const [editingId, setEditingId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     localStorage.setItem("employees", JSON.stringify(employees));
-  }, [employees]); // ✅ runs when employees changes
+  }, [employees]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleAddOrUpdate = () => {
+  // Function to generate next Employee ID
+  const getNextId = () => {
+    if (employees.length === 0) return "EMP001";
+    const lastId = employees[employees.length - 1].id;
+    const num = parseInt(lastId.replace("EMP", ""), 10);
+    const nextNum = num + 1;
+    return `EMP${String(nextNum).padStart(3, "0")}`;
+  };
+
+  const handleAddOrUpdate = (e) => {
+    e.preventDefault();
     if (!formData.name.trim() || !formData.role.trim()) return;
 
     if (editingId) {
-      // Update existing employee
       setEmployees((prev) =>
         prev.map((emp) =>
-          emp.id === editingId ? { ...emp, ...formData } : emp
+          emp.id === editingId ? { ...formData, id: editingId, age: Number(formData.age) } : emp
         )
       );
       setEditingId(null);
     } else {
-      // Add new employee
-      setEmployees((prev) => [...prev, { id: Date.now(), ...formData }]);
+      const newEmployee = {
+        id: getNextId(),
+        ...formData,
+        age: Number(formData.age),
+      };
+      setEmployees((prev) => [...prev, newEmployee]);
     }
 
-    setFormData({ name: "", role: "" });
+    setFormData({ name: "", role: "", age: "", state: "", address: "" });
   };
 
   const handleEdit = (id) => {
     const emp = employees.find((e) => e.id === id);
     if (emp) {
-      setFormData({ name: emp.name, role: emp.role });
+      setFormData(emp);
       setEditingId(id);
     }
   };
@@ -65,11 +79,31 @@ export default function Employee() {
     setEmployees((prev) => prev.filter((emp) => emp.id !== id));
   };
 
+  // 🔍 Filter employees by ID, name, or age
+  const filteredEmployees = employees.filter((emp) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      emp.id.toLowerCase().includes(query) ||
+      emp.name.toLowerCase().includes(query) ||
+      emp.age.toString().includes(query)
+    );
+  });
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Employees</h1>
 
-      <div className={styles.form}>
+      {/* 🔍 Search Bar */}
+      <input
+        type="text"
+        placeholder="Search by ID, Name or Age..."
+        className={styles.search}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+
+      {/* Add / Edit Form */}
+      <form className={styles.form} onSubmit={handleAddOrUpdate}>
         <input
           type="text"
           name="name"
@@ -84,24 +118,64 @@ export default function Employee() {
           value={formData.role}
           onChange={handleChange}
         />
-        <button className={styles.button} onClick={handleAddOrUpdate}>
+        <input
+          type="number"
+          name="age"
+          placeholder="Employee Age"
+          value={formData.age}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="state"
+          placeholder="State of Origin"
+          value={formData.state}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="address"
+          placeholder="Employee Address"
+          value={formData.address}
+          onChange={handleChange}
+        />
+
+        <button className={styles.button} type="submit">
           {editingId ? "Update Employee" : "Add Employee"}
         </button>
-      </div>
+        {editingId && (
+          <button
+            type="button"
+            className={`${styles.button} ${styles.cancelButton}`}
+            onClick={() => {
+              setFormData({ name: "", role: "", age: "", state: "", address: "" });
+              setEditingId(null);
+            }}
+          >
+            Cancel
+          </button>
+        )}
+      </form>
 
+      {/* Employee Grid */}
       <div className={styles.grid}>
-        {employees.map((emp) => (
+        {filteredEmployees.map((emp) => (
           <div key={emp.id} className={styles.card}>
-            <div className={styles.name}>{emp.name}</div>
+            <div className={styles.name}>
+              {emp.name} <span className={styles.empId}>({emp.id})</span>
+            </div>
             <div className={styles.role}>{emp.role}</div>
+            <div className={styles.age}>Age: {emp.age}</div>
+            <div className={styles.state}>State: {emp.state}</div>
+            <div className={styles.address}>Address: {emp.address}</div>
             <button
-              className={"${styles.button} ${styles.editButton}"} // ✅ fixed
+              className={`${styles.button} ${styles.editButton}`}
               onClick={() => handleEdit(emp.id)}
             >
               Edit
             </button>
             <button
-              className={"${styles.button} ${styles.deleteButton}"} // ✅ fixed
+              className={`${styles.button} ${styles.deleteButton}`}
               onClick={() => handleDelete(emp.id)}
             >
               Delete
