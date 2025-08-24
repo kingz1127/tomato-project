@@ -13,6 +13,7 @@ import { CiSettings } from "react-icons/ci";
 export default function AdminDash() {
   const [customers, setCustomers] = useState(0);
   const [products, setProducts] = useState(0);
+  const [employees, setEmployees] = useState(0); // ✅ new state
 
   const loadCustomers = () => {
     const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
@@ -20,28 +21,43 @@ export default function AdminDash() {
   };
 
   const loadProducts = () => {
-    const storedUsers = JSON.parse(localStorage.getItem("products")) || [];
-    setProducts(storedUsers.length);
+    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    setProducts(storedProducts.length);
+  };
+
+  const loadEmployees = () => {
+    const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
+    setEmployees(storedEmployees.length);
   };
 
   useEffect(() => {
-    loadCustomers(); // Load on mount
+    loadCustomers();
     loadProducts();
+    loadEmployees();
 
     // Listen for storage changes
-    window.addEventListener("storage", loadCustomers);
+    window.addEventListener("storage", () => {
+      loadCustomers();
+      loadProducts();
+      loadEmployees();
+    });
 
     return () => {
-      window.removeEventListener("storage", loadCustomers);
+      window.removeEventListener("storage", () => {
+        loadCustomers();
+        loadProducts();
+        loadEmployees();
+      });
     };
   }, []);
+
   return (
     <>
       <div className={styles.AdminDashhead}>
         <h2>Hello, Admin</h2>
         <div className={styles.searchBar}>
           <BiSearch className={styles.iconSearch} />
-          <input type="search" name="" id="" placeholder="Search" />
+          <input type="search" placeholder="Search" />
         </div>
 
         <div className={styles.mailNot}>
@@ -59,7 +75,7 @@ export default function AdminDash() {
             <BiCartAdd className={styles.BiCartAdd} />
           </div>
           <div className={styles.h1p}>
-            <h1>Orders + </h1>
+            <h1>Orders +</h1>
             <p>Total Orders</p>
           </div>
         </div>
@@ -89,7 +105,7 @@ export default function AdminDash() {
             <BsPersonWorkspace className={styles.BiCartAdd} />
           </div>
           <div className={styles.h1p}>
-            <h1>Employee +</h1>
+            <h1>{employees} +</h1> {/* ✅ now dynamic */}
             <p>Total Employees</p>
           </div>
         </div>
