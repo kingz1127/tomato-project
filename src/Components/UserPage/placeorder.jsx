@@ -36,7 +36,7 @@ const Placeorder = () => {
       const savedProduct = localStorage.getItem(`buyNow_${loggedInUser.email}`);
       if (savedProduct) {
         const parsedProduct = JSON.parse(savedProduct);
-        setOrderProducts([parsedProduct]); // wrap in array for consistency
+        setOrderProducts([parsedProduct]);
         setQuantity(parsedProduct.quantity || 1);
 
         const savedDelivery = localStorage.getItem(
@@ -70,7 +70,7 @@ const Placeorder = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate form fields
+    // ✅ Validate form fields
     for (let key in formData) {
       if (!formData[key]) {
         alert("Please fill all delivery fields before proceeding.");
@@ -85,7 +85,6 @@ const Placeorder = () => {
         JSON.stringify(formData)
       );
 
-      // Save order summary
       const subtotal = orderProducts.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
@@ -96,10 +95,8 @@ const Placeorder = () => {
       // ✅ Generate unique order ID
       const orderId = "ORD-" + Date.now();
 
-      // ✅ Save in allOrders for admin view
-      const allOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
-      allOrders.push({
-        id: orderId, // Unique order ID
+      const newOrder = {
+        id: orderId,
         userEmail: loggedInUser.email,
         products: orderProducts,
         delivery: formData,
@@ -107,11 +104,33 @@ const Placeorder = () => {
         deliveryFee,
         total,
         orderDate: new Date().toLocaleString(),
-      });
-      localStorage.setItem("allOrders", JSON.stringify(allOrders));
-    }
+        status: "Pending",
+      };
 
-    window.location.href = "/orderuserpage";
+      // ✅ Save order for Admin (allOrders)
+      const allOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
+      allOrders.push(newOrder);
+      localStorage.setItem("allOrders", JSON.stringify(allOrders));
+
+      // ✅ Save order to user profile (myUsers)
+      let users = JSON.parse(localStorage.getItem("myUsers")) || [];
+      users = users.map((user) => {
+        if (user.email === loggedInUser.email) {
+          const updatedOrders = user.orders
+            ? [...user.orders, newOrder]
+            : [newOrder];
+          return { ...user, orders: updatedOrders };
+        }
+        return user;
+      });
+      localStorage.setItem("myUsers", JSON.stringify(users));
+
+      // ✅ Alert Order ID
+      // alert(`Your Order ID is: ${orderId}. Please keep it safe.`);
+
+      // ✅ Redirect to order user page
+      window.location.href = "/orderuserpage";
+    }
   };
 
   const subtotal = orderProducts.reduce(

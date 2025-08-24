@@ -56,6 +56,7 @@ export default function Demo() {
   const imageStyles = {
     width: "100%",
     objectFit: "cover",
+    height: "35rem",
     borderRadius: "4px",
     marginBottom: "10px",
   };
@@ -108,7 +109,7 @@ export default function Demo() {
               <p>{p.description}</p>
 
               <Link to="/signup">
-                <button>Add to Cart</button>
+                <button className={styles.addtoCart}>Add to Cart</button>
               </Link>
             </li>
           ))}

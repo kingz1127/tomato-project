@@ -70,6 +70,7 @@ export default function Homepage() {
   const imageStyles = {
     width: "100%",
     objectFit: "cover",
+    height: "35rem",
     borderRadius: "4px",
     marginBottom: "10px",
   };
