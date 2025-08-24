@@ -1,5 +1,5 @@
 .admin-orders {
-  padding: 20px;
+  padding: 1rem;
   font-family: Arial, sans-serif;
   overflow-x: auto; /* allow scroll if table is wider than screen */
   max-width: 100%;
@@ -7,13 +7,14 @@
 
 .admin-orders h1 {
   font-size: 24px;
-  margin-bottom: 15px;
+  margin-top: 3rem;
   color: #333;
 }
 
 .admin-orders .count {
   font-size: 16px;
-  color: #666;
+  color: #09934b;
+  margin-bottom: 2rem;
 }
 
 .search-box {
@@ -78,11 +79,11 @@
 }
 
 .status-select.en-route {
-  background-color: #cce5ff;
+  background-color: #7cb5f2;
 }
 
 .status-select.delivered {
-  background-color: #d4edda;
+  background-color: #68ef87;
 }
 
 /* ✅ Pagination */

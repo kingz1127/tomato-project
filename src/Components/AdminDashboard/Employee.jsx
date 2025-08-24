@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import styles from "./Employee.module.css";
+import { BiSearch } from "react-icons/bi";
+import { FiMail } from "react-icons/fi";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { GrUserAdmin } from "react-icons/gr";
 
 export default function Employee() {
   const defaultEmployees = [
@@ -144,16 +148,30 @@ export default function Employee() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Employees</h1>
-
-      {/* Search Bar */}
-      <input
-        type="text"
-        placeholder="Search by ID, Name or Age..."
-        className={styles.search}
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+      <div className={styles.AdminDashhead}>
+        <h2>Hello, Admin</h2>
+        <div className={styles.searchBar}>
+          <BiSearch className={styles.iconSearch} />
+          <input
+            type="text"
+            placeholder="Search by ID, Name or Age..."
+            className={styles.search}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <div className={styles.mailNot}>
+          <FiMail className={styles.icons} />
+          <IoIosNotificationsOutline className={styles.icons} />
+          <div className={styles.iconsAdmin}>
+            <GrUserAdmin className={styles.icons} style={{ color: "white" }} />
+          </div>
+        </div>
+      </div>
+      <div className={styles.title}>
+        <h1 style={{ fontSize: "2rem" }}>Employees </h1>
+        <p style={{ color: "green" }}>{employees.length}</p>
+      </div>
 
       {/* Add / Edit Form */}
       <form className={styles.form} onSubmit={handleAddOrUpdate}>

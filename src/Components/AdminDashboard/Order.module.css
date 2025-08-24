@@ -1,0 +1,52 @@
+.AdminDashhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+.AdminDashhead h2 {
+  color: rgb(93, 90, 90);
+  margin-left: 2rem;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(20% + 5rem);
+  padding-left: 3rem;
+  height: 4rem;
+}
+.searchBar input {
+  height: 3rem;
+  width: calc(100% + 10rem);
+  padding-left: 4rem;
+  border-radius: 2rem;
+}
+.searchBar .iconSearch {
+  height: 2rem;
+  width: 2rem;
+  margin-right: 17rem;
+  position: absolute;
+  margin-top: -1rem;
+}
+.mailNot {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+.icons {
+  color: rgb(93, 90, 90);
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.iconsAdmin {
+  color: rgb(93, 90, 90);
+  width: 5rem;
+  height: 5rem;
+  background-color: tomato;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

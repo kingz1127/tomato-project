@@ -17,11 +17,12 @@ export default function Product() {
     price: "",
     quantity: "",
     description: "",
-    category: "", // ✅ new category field
+    category: "",
   });
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(""); // ✅ for search input
   const productsPerPage = 10;
 
   // Load products from localStorage on mount
@@ -54,7 +55,7 @@ export default function Product() {
     let updatedProducts;
 
     if (editIndex !== null) {
-      // Update existing product, keep its original ID
+      // Update existing product
       updatedProducts = [...products];
       updatedProducts[editIndex] = { ...form, id: products[editIndex].id };
     } else {
@@ -63,7 +64,7 @@ export default function Product() {
     }
 
     setProducts(updatedProducts);
-    localStorage.setItem("products", JSON.stringify(updatedProducts)); // ✅ Save immediately
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
     setForm({
       name: "",
       image: "",
@@ -86,18 +87,25 @@ export default function Product() {
     if (window.confirm("Are you sure you want to delete this product?")) {
       const updatedProducts = products.filter((_, i) => i !== index);
       setProducts(updatedProducts);
-      localStorage.setItem("products", JSON.stringify(updatedProducts)); // Save deletion
+      localStorage.setItem("products", JSON.stringify(updatedProducts));
     }
   };
+
+  // ✅ Search filter (by name OR category)
+  const filteredProducts = products.filter(
+    (p) =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
     <div style={{ padding: "1rem" }}>
@@ -105,7 +113,12 @@ export default function Product() {
         <h2>Hello, Admin</h2>
         <div className={styles.searchBar}>
           <BiSearch className={styles.iconSearch} />
-          <input type="search" placeholder="Search" />
+          <input
+            type="search"
+            placeholder="Search by name or category"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} // ✅ handle search
+          />
         </div>
         <div className={styles.mailNot}>
           <FiMail className={styles.icons} />
@@ -118,8 +131,8 @@ export default function Product() {
 
       <div className={stylesProd.allProdAdd}>
         <div className={stylesProd.allProdAddph3}>
-          <p>All Products</p>
-          <h3 style={{ color: "tomato" }}>{products.length}</h3>
+          <p style={{ fontSize: "2rem" }}>All Products</p>
+          <h3 style={{ color: "tomato" }}>{filteredProducts.length}</h3>
         </div>
         <h4
           className={stylesProd.allProdAddh3}
@@ -198,10 +211,10 @@ export default function Product() {
               </td>
             </tr>
           ))}
-          {products.length === 0 && (
+          {filteredProducts.length === 0 && (
             <tr>
               <td colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
-                No products available. Add some products to get started!
+                No products found.
               </td>
             </tr>
           )}
@@ -262,7 +275,7 @@ export default function Product() {
         </div>
       )}
       <p>
-        showing {currentPage} to 10 of {totalPages} pages
+        Showing page {currentPage} of {totalPages}
       </p>
 
       {/* Form Modal */}
@@ -297,26 +310,12 @@ export default function Product() {
                 placeholder="Product Name"
                 value={form.name}
                 onChange={handleInputChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                }}
               />
               <input
                 name="image"
                 placeholder="Image URL"
                 value={form.image}
                 onChange={handleInputChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                }}
               />
               <input
                 name="price"
@@ -325,13 +324,6 @@ export default function Product() {
                 step="0.01"
                 value={form.price}
                 onChange={handleInputChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                }}
               />
               <input
                 name="quantity"
@@ -339,13 +331,6 @@ export default function Product() {
                 type="number"
                 value={form.quantity}
                 onChange={handleInputChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                }}
               />
               <input
                 name="description"
@@ -353,26 +338,11 @@ export default function Product() {
                 type="text"
                 value={form.description}
                 onChange={handleInputChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                }}
               />
-              {/* ✅ Category Dropdown */}
               <select
                 name="category"
                 value={form.category}
                 onChange={handleInputChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                }}
               >
                 <option value="">Select Category</option>
                 <option value="Salad">Salad</option>
