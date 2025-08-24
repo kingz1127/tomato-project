@@ -69,9 +69,9 @@ export default function Employee() {
   const [editingId, setEditingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // ✅ Pagination states
+  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const employeesPerPage = 10;
+  const employeesPerPage = 3; // show 3 employees per page
 
   useEffect(() => {
     localStorage.setItem("employees", JSON.stringify(employees));
@@ -81,7 +81,6 @@ export default function Employee() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Generate next Employee ID
   const getNextId = () => {
     if (employees.length === 0) return "EMP001";
     const lastId = employees[employees.length - 1].id;
@@ -127,7 +126,7 @@ export default function Employee() {
     setEmployees((prev) => prev.filter((emp) => emp.id !== id));
   };
 
-  // 🔍 Filter employees
+  // Filter employees by ID, name, or age
   const filteredEmployees = employees.filter((emp) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -137,7 +136,7 @@ export default function Employee() {
     );
   });
 
-  // ✅ Pagination logic
+  // Pagination logic
   const indexOfLast = currentPage * employeesPerPage;
   const indexOfFirst = indexOfLast - employeesPerPage;
   const currentEmployees = filteredEmployees.slice(indexOfFirst, indexOfLast);
@@ -147,16 +146,13 @@ export default function Employee() {
     <div className={styles.container}>
       <h1 className={styles.title}>Employees</h1>
 
-      {/* 🔍 Search Bar */}
+      {/* Search Bar */}
       <input
         type="text"
         placeholder="Search by ID, Name or Age..."
         className={styles.search}
         value={searchQuery}
-        onChange={(e) => {
-          setSearchQuery(e.target.value);
-          setCurrentPage(1); // reset to page 1 on search
-        }}
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
 
       {/* Add / Edit Form */}
@@ -247,26 +243,26 @@ export default function Employee() {
         ))}
       </div>
 
-      {/* ✅ Pagination Controls */}
-      {totalPages > 1 && (
-        <div className={styles.pagination}>
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => p - 1)}
-          >
-            Prev
-          </button>
-          <span>
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((p) => p + 1)}
-          >
-            Next
-          </button>
-        </div>
-      )}
+      {/* Pagination Controls */}
+      <div className={styles.pagination}>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

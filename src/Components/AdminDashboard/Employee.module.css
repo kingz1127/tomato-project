@@ -1,4 +1,4 @@
-.container {
+/* .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
@@ -107,4 +107,280 @@
   font-weight: normal;
   color: #666;
 }
- 
+  */
+
+/* .container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.form input {
+  flex: 1 1 180px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.cancelButton {
+  background-color: #6c757d;
+}
+
+.cancelButton:hover {
+  background-color: #565e64;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+.role {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.age,
+.state,
+.address {
+  font-size: 13px;
+  color: #444;
+}
+
+.editButton {
+  background-color: #28a745;
+  margin-top: 10px;
+}
+
+.editButton:hover {
+  background-color: #1e7e34;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  margin-top: 6px;
+}
+
+.deleteButton:hover {
+  background-color: #a71d2a;
+}
+.empId {
+  font-size: 13px;
+  font-weight: normal;
+  color: #666;
+} */
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.form input {
+  flex: 1 1 180px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.cancelButton {
+  background-color: #6c757d;
+}
+
+.cancelButton:hover {
+  background-color: #565e64;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+.role {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.age,
+.state,
+.address {
+  font-size: 13px;
+  color: #444;
+}
+
+.editButton {
+  background-color: #28a745;
+  margin-top: 10px;
+}
+
+.editButton:hover {
+  background-color: #1e7e34;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  margin-top: 6px;
+}
+
+.deleteButton:hover {
+  background-color: #a71d2a;
+}
+.empId {
+  font-size: 13px;
+  font-weight: normal;
+  color: #666;
+}
+/* 🔍 Search Bar Styling */
+.search {
+  width: 100%;
+  max-width: 350px;
+  padding: 10px 14px;
+  margin: 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  background-color: #f9f9f9;
+}
+
+/* Hover effect */
+.search:hover {
+  border-color: #007bff;
+  background-color: #fff;
+}
+
+/* Focus effect */
+.search:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+  background-color: #fff;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #0056b3;
+}

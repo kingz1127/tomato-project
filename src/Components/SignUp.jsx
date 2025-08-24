@@ -130,7 +130,7 @@ export default function SignUp() {
             to="/login"
             style={{ textDecoration: "none", color: "blue", cursor: "pointer" }}
           >
-            <p>Login!</p>
+            <p style={{ color: "white" }}>Login!</p>
           </Link>
         </div>
       </div>

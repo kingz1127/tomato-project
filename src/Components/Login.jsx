@@ -157,7 +157,11 @@ export default function Login() {
           {/* Forgot Password */}
           <p
             onClick={handleForgotPassword}
-            style={{ color: "blue", cursor: "pointer", marginTop: "10px" }}
+            style={{
+              color: "rgba(243, 194, 134, 1)",
+              cursor: "pointer",
+              marginTop: "10px",
+            }}
           >
             Forgot Password?
           </p>
@@ -168,7 +172,7 @@ export default function Login() {
               <p>
                 Your new password: <b>{newPassword}</b>
                 <br />
-                <small>(Copied to clipboard ✔️)</small>
+                <small>(Copied to clipboard ✔)</small>
               </p>
               <button onClick={handleSaveNewPassword}>Keep it Safe</button>
             </div>
@@ -179,7 +183,7 @@ export default function Login() {
             to="/signup"
             style={{ textDecoration: "none", color: "blue", cursor: "pointer" }}
           >
-            <p>Sign up!</p>
+            <p style={{ color: "white" }}>Sign up!</p>
           </Link>
         </div>
       </div>

@@ -1,0 +1,59 @@
+.settingsContainer {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.settingsContainer h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.text,
+.email,
+.password {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.save {
+  background: #4caf50;
+  color: white;
+}
+
+.reset {
+  background: #f44336;
+  color: white;
+}
+
+.settingsContainer div {
+  font-size: 14px;
+}
