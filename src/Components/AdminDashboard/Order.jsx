@@ -145,18 +145,6 @@ export default function Order() {
           </button>
         </div>
       )}
-
-      <button
-        onClick={handleClearAll}
-        style={{
-          marginTop: "20px",
-          background: "red",
-          color: "white",
-          padding: "8px",
-        }}
-      >
-        Clear all orders
-      </button>
     </div>
   );
 }
