@@ -1,53 +1,248 @@
-import React, { useContext } from "react";
-import "../css/placeorder.css";
-import { StoreContext } from "../context/StoreContext";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import "./placeorder.css";
+import Footer from "../LandingPage/Footer";
+import NavbarHome from "./NavbarHome";
 
-const placeorder = () => {
-  const { getTotalCartAmount } = useContext(StoreContext);
+const Placeorder = () => {
+  const location = useLocation();
+  const { products = [], totalAmount: navTotal = 0 } = location.state || {};
+
+  const [orderProducts, setOrderProducts] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+    country: "",
+    phone: "",
+  });
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    // ✅ If redirected from Cart
+    if (products.length > 0) {
+      setOrderProducts(products);
+      return;
+    }
+
+    // ✅ If redirected from Buy Now (single product)
+    if (loggedInUser) {
+      const savedProduct = localStorage.getItem(`buyNow_${loggedInUser.email}`);
+      if (savedProduct) {
+        const parsedProduct = JSON.parse(savedProduct);
+        setOrderProducts([parsedProduct]); // wrap in array for consistency
+        setQuantity(parsedProduct.quantity || 1);
+
+        const savedDelivery = localStorage.getItem(
+          `deliveryInfo_${loggedInUser.email}`
+        );
+        if (savedDelivery) setFormData(JSON.parse(savedDelivery));
+      }
+    }
+  }, [products]);
+
+  const handleIncrease = () => {
+    if (orderProducts.length === 1) {
+      const newQty = quantity + 1;
+      setQuantity(newQty);
+      setOrderProducts([{ ...orderProducts[0], quantity: newQty }]);
+    }
+  };
+
+  const handleDecrease = () => {
+    if (orderProducts.length === 1 && quantity > 1) {
+      const newQty = quantity - 1;
+      setQuantity(newQty);
+      setOrderProducts([{ ...orderProducts[0], quantity: newQty }]);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate form fields
+    for (let key in formData) {
+      if (!formData[key]) {
+        alert("Please fill all delivery fields before proceeding.");
+        return;
+      }
+    }
+
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (loggedInUser) {
+      localStorage.setItem(
+        `deliveryInfo_${loggedInUser.email}`,
+        JSON.stringify(formData)
+      );
+
+      // Save order summary
+      const subtotal = orderProducts.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+      const deliveryFee = orderProducts.length > 0 ? 2 : 0;
+      const total = subtotal + deliveryFee;
+
+      // ✅ Generate unique order ID
+      const orderId = "ORD-" + Date.now();
+
+      // ✅ Save in allOrders for admin view
+      const allOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
+      allOrders.push({
+        id: orderId, // Unique order ID
+        userEmail: loggedInUser.email,
+        products: orderProducts,
+        delivery: formData,
+        subtotal,
+        deliveryFee,
+        total,
+        orderDate: new Date().toLocaleString(),
+      });
+      localStorage.setItem("allOrders", JSON.stringify(allOrders));
+    }
+
+    window.location.href = "/orderuserpage";
+  };
+
+  const subtotal = orderProducts.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const deliveryFee = orderProducts.length > 0 ? 2 : 0;
+  const total = subtotal + deliveryFee;
+
   return (
-    <form className="place-order">
-      <div className="place-order-left">
-        <p className="title">Delivery Information</p>
-        <div className="multi-fields">
-          <input type="text" placeholder="First name" />
-          <input type="text" placeholder="Last name" />
-        </div>
-        <input type="email" placeholder="Email address" />
-        <input type="text" placeholder="Street" />
-        <div className="multi-fields">
-          <input type="text" placeholder="City" />
-          <input type="text" placeholder="State" />
-        </div>
-        <div className="multi-fields">
-          <input type="text" placeholder="Zip code" />
-          <input type="text" placeholder="Country" />
-        </div>
-        <input type="text" placeholder="Phone" />
+    <>
+      <div className="navbar">
+        <NavbarHome />
       </div>
-      <div className="place-order-right">
-        <div className="cart-total">
-          <h2>Cart Total</h2>
-          <div>
-            <div className="cart-total-details">
-              <p>Subtotal</p>
-              <p>${getTotalCartAmount()}</p>
-            </div>
-            <hr />
-            <div className="cart-total-details">
-              <p>Delivery Fee</p>
-              <p>${getTotalCartAmount() === 0 ? 0 : 2}</p>
-            </div>
-            <hr />
-            <div className="cart-total-details">
-              <b>Total</b>
-              <b>${getTotalCartAmount === 0 ? 0 : getTotalCartAmount() + 2}</b>
-            </div>
+      <form className="place-order" onSubmit={handleSubmit}>
+        {/* LEFT SIDE - DELIVERY FORM */}
+        <div className="place-order-left">
+          <p className="title">Delivery Information</p>
+          <div className="multi-fields">
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First name"
+              value={formData.firstName}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last name"
+              value={formData.lastName}
+              onChange={handleInputChange}
+            />
           </div>
-          <button>PROCEED TO PAYMENT</button>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            name="street"
+            placeholder="Street"
+            value={formData.street}
+            onChange={handleInputChange}
+          />
+          <div className="multi-fields">
+            <input
+              type="text"
+              name="city"
+              placeholder="City"
+              value={formData.city}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="state"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="multi-fields">
+            <input
+              type="text"
+              name="zip"
+              placeholder="Zip code"
+              value={formData.zip}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="country"
+              placeholder="Country"
+              value={formData.country}
+              onChange={handleInputChange}
+            />
+          </div>
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+          />
         </div>
-      </div>
-    </form>
+
+        {/* RIGHT SIDE - ORDER SUMMARY */}
+        <div className="place-order-right">
+          <div className="cart-total">
+            <h2>Order Summary</h2>
+            {orderProducts.length > 0 ? (
+              <div>
+                {orderProducts.map((item) => (
+                  <div key={item.id} className="cart-total-details">
+                    <p>
+                      {item.name} (x{item.quantity})
+                    </p>
+                    <p>${(item.price * item.quantity).toFixed(2)}</p>
+                  </div>
+                ))}
+
+                <hr />
+                <div className="cart-total-details">
+                  <p>Subtotal</p>
+                  <p>${subtotal.toFixed(2)}</p>
+                </div>
+                <hr />
+                <div className="cart-total-details">
+                  <p>Delivery Fee</p>
+                  <p>${deliveryFee}</p>
+                </div>
+                <hr />
+                <div className="cart-total-details">
+                  <b>Total</b>
+                  <b>${total.toFixed(2)}</b>
+                </div>
+              </div>
+            ) : (
+              <p>No product selected.</p>
+            )}
+            <button type="submit">PROCEED TO PAYMENT</button>
+          </div>
+        </div>
+      </form>
+
+      <Footer />
+    </>
   );
 };
 
-export default placeorder;
+export default Placeorder;

@@ -8,6 +8,7 @@ import stylesp from "./Homepage.module.css";
 import NavbarHome from "./NavbarHome";
 
 import { useStoreContext } from "../context/StoreContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Homepage() {
   const [profile, setProfile] = useState(null);
@@ -18,7 +19,8 @@ export default function Homepage() {
 
   const [category, setCategory] = useState("All");
 
-  const { addToCart } = useStoreContext();
+  const { addToCart, cartItems, getTotalCartAmount } = useStoreContext();
+  const navigate = useNavigate();
 
   // Load profile + products from localStorage
   useEffect(() => {
@@ -66,11 +68,6 @@ export default function Homepage() {
   };
 
   const imageStyles = {
-    // width: "100%",
-    // height: "25rem",
-    // objectFit: "contain",
-    // borderRadius: "4px",
-    // marginBottom: "10px",
     width: "100%",
     objectFit: "cover",
     borderRadius: "4px",
@@ -88,6 +85,20 @@ export default function Homepage() {
     fontSize: "0.9rem",
     color: "#666",
     marginTop: "5px",
+  };
+
+  // ✅ Buy Now logic (untouched)
+  const handleBuyNow = (product) => {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (loggedInUser) {
+      localStorage.setItem(
+        `buyNow_${loggedInUser.email}`,
+        JSON.stringify({ ...product, quantity: 1 })
+      );
+      navigate("/placeorder");
+    } else {
+      alert("Please log in first!");
+    }
   };
 
   return (
@@ -148,6 +159,12 @@ export default function Homepage() {
                 className={stylesp.addtoCart}
               >
                 Add to Cart
+              </button>
+              <button
+                onClick={() => handleBuyNow(p)}
+                className={stylesp.buyNow}
+              >
+                Buy now
               </button>
             </li>
           ))}

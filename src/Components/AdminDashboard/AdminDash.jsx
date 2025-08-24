@@ -13,7 +13,6 @@ import { CiSettings } from "react-icons/ci";
 export default function AdminDash() {
   const [customers, setCustomers] = useState(0);
   const [products, setProducts] = useState(0);
-  const [employees, setEmployees] = useState(0); // ✅ new state
 
   const loadCustomers = () => {
     const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
@@ -21,33 +20,19 @@ export default function AdminDash() {
   };
 
   const loadProducts = () => {
-    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    setProducts(storedProducts.length);
-  };
-
-  const loadEmployees = () => {
-    const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-    setEmployees(storedEmployees.length);
+    const storedUsers = JSON.parse(localStorage.getItem("products")) || [];
+    setProducts(storedUsers.length);
   };
 
   useEffect(() => {
     loadCustomers();
     loadProducts();
-    loadEmployees();
 
     // Listen for storage changes
-    window.addEventListener("storage", () => {
-      loadCustomers();
-      loadProducts();
-      loadEmployees();
-    });
+    window.addEventListener("storage", loadCustomers);
 
     return () => {
-      window.removeEventListener("storage", () => {
-        loadCustomers();
-        loadProducts();
-        loadEmployees();
-      });
+      window.removeEventListener("storage", loadCustomers);
     };
   }, []);
 
@@ -75,7 +60,7 @@ export default function AdminDash() {
             <BiCartAdd className={styles.BiCartAdd} />
           </div>
           <div className={styles.h1p}>
-            <h1>Orders +</h1>
+            <h1>Orders + </h1>
             <p>Total Orders</p>
           </div>
         </div>

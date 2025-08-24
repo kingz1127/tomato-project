@@ -1,0 +1,89 @@
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4.5rem;
+}
+.orderuserpage h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8rem;
+  margin-bottom: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.summarypay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 2rem;
+}
+.order_summary {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 12rem;
+  border-radius: 1rem;
+  padding: 3rem;
+  width: 25%;
+  box-shadow: 3px 4px 8px rgb(37, 36, 36, 0.5);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 3rem;
+  /* background-color: rgb(246, 242, 241); */
+  border-radius: 1rem;
+  padding: 3rem;
+  width: 25%;
+  box-shadow: 3px 4px 8px rgb(37, 36, 36, 0.5);
+}
+.form input {
+  border: 1px solid tomato;
+  height: 5rem;
+  border-radius: 4px;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+.modal {
+  width: 30%;
+  height: 50%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 2rem;
+  border-radius: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.modal h3 {
+  font-size: 3rem;
+}
+.Transact {
+  width: 12rem;
+  height: 12rem;
+  margin-top: 3rem;
+}
+.modal p {
+  display: flex;
+  align-items: center;
+  /* column-gap: 2rem; */
+}
+.modal button {
+  width: 6rem;
+  height: 3rem;
+  border: none;
+  border-radius: 4px;
+  background-color: tomato;
+  color: white;
+}
+.TransactCar {
+  width: 4rem;
+  height: 4rem;
+}
+.Footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: -5rem;
+}

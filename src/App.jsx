@@ -18,6 +18,8 @@ import AdminDash from "./Components/AdminDashboard/AdminDash";
 import { StoreContextProvider } from "./Components/context/StoreContext";
 import Homepage from "./Components/UserPage/Homepage";
 import Cart from "./Components/UserPage/cart";
+import Placeorder from "./Components/UserPage/Placeorder";
+import OrderUserPage from "./Components/UserPage/OrderUserPage";
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/cart" element={<Cart />} /> {/* Add cart route */}
+          <Route path="/placeorder" element={<Placeorder />} />
+          <Route path="/orderUserPage" element={<OrderUserPage />} />
           <Route path="/adminDashboard" element={<AdminDashboard />}>
             <Route path="adminDash" element={<AdminDash />} />
             <Route path="order" element={<Order />} />
