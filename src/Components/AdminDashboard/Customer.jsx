@@ -12,18 +12,22 @@ export default function Customer() {
   const [searchTerm, setSearchTerm] = useState("");
   const customersPerPage = 10;
 
-  useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
-    setCustomers(storedUsers);
+useEffect(() => {
+  const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
+  setCustomers(storedUsers);
 
-    const handleStorageChange = () => {
-      const updatedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
-      setCustomers(updatedUsers);
-    };
+  const handleStorageChange = () => {
+    const updatedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
+    setCustomers(updatedUsers);
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+    // 👇 Move to last page when new customer is added
+    const totalPages = Math.ceil(updatedUsers.length / customersPerPage);
+    setCurrentPage(totalPages);
+  };
+
+  window.addEventListener("storage", handleStorageChange);
+  return () => window.removeEventListener("storage", handleStorageChange);
+}, []);
 
   // Search filter
   const filteredCustomers = customers.filter(
@@ -38,6 +42,38 @@ export default function Customer() {
   const indexOfFirst = indexOfLast - customersPerPage;
   const currentCustomers = filteredCustomers.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(filteredCustomers.length / customersPerPage);
+  {/* Pagination Controls */}
+{totalPages > 1 && (
+  <div className={stylesCus.pagination}>
+    <button
+      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+      disabled={currentPage === 1}
+    >
+      {"<"}
+    </button>
+
+    {/* Page Numbers */}
+    {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+      <button
+        key={num}
+        onClick={() => setCurrentPage(num)}
+        className={currentPage === num ? stylesCus.activePage : ""}
+      >
+        {num}
+      </button>
+    ))}
+
+    <button
+      onClick={() =>
+        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+      }
+      disabled={currentPage === totalPages}
+    >
+      {">"}
+    </button>
+  </div>
+)}
+
 
   return (
     <>
