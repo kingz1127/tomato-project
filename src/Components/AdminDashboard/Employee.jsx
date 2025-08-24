@@ -3,12 +3,54 @@ import styles from "./Employee.module.css";
 
 export default function Employee() {
   const defaultEmployees = [
-    { id: "EMP001", name: "John Ovie", role: "Manager", age: 35, state: "Lagos", address: "12 Allen Avenue" },
-    { id: "EMP002", name: "Jane Ijeh", role: "Developer", age: 28, state: "Abuja", address: "45 Garki Road" },
-    { id: "EMP003", name: "Michael Johnson", role: "Designer", age: 30, state: "Oyo", address: "78 Ring Road" },
-    { id: "EMP004", name: "Sarah Peace", role: "QA Engineer", age: 26, state: "Rivers", address: "101 Trans-Amadi" },
-    { id: "EMP005", name: "David Adeola", role: "DevOps Engineer", age: 32, state: "Ogun", address: "15 Abeokuta Street" },
-    { id: "EMP006", name: "Emily Adebayo", role: "Product Owner", age: 29, state: "Kano", address: "33 Zoo Road" },
+    {
+      id: "EMP001",
+      name: "John Ovie",
+      role: "Manager",
+      age: 35,
+      state: "Lagos",
+      address: "12 Allen Avenue",
+    },
+    {
+      id: "EMP002",
+      name: "Jane Ijeh",
+      role: "Developer",
+      age: 28,
+      state: "Abuja",
+      address: "45 Garki Road",
+    },
+    {
+      id: "EMP003",
+      name: "Michael Johnson",
+      role: "Designer",
+      age: 30,
+      state: "Oyo",
+      address: "78 Ring Road",
+    },
+    {
+      id: "EMP004",
+      name: "Sarah Peace",
+      role: "QA Engineer",
+      age: 26,
+      state: "Rivers",
+      address: "101 Trans-Amadi",
+    },
+    {
+      id: "EMP005",
+      name: "David Adeola",
+      role: "DevOps Engineer",
+      age: 32,
+      state: "Ogun",
+      address: "15 Abeokuta Street",
+    },
+    {
+      id: "EMP006",
+      name: "Emily Adebayo",
+      role: "Product Owner",
+      age: 29,
+      state: "Kano",
+      address: "33 Zoo Road",
+    },
   ];
 
   const [employees, setEmployees] = useState(() => {
@@ -27,6 +69,10 @@ export default function Employee() {
   const [editingId, setEditingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // ✅ Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const employeesPerPage = 10;
+
   useEffect(() => {
     localStorage.setItem("employees", JSON.stringify(employees));
   }, [employees]);
@@ -35,7 +81,7 @@ export default function Employee() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Function to generate next Employee ID
+  // Generate next Employee ID
   const getNextId = () => {
     if (employees.length === 0) return "EMP001";
     const lastId = employees[employees.length - 1].id;
@@ -51,7 +97,9 @@ export default function Employee() {
     if (editingId) {
       setEmployees((prev) =>
         prev.map((emp) =>
-          emp.id === editingId ? { ...formData, id: editingId, age: Number(formData.age) } : emp
+          emp.id === editingId
+            ? { ...formData, id: editingId, age: Number(formData.age) }
+            : emp
         )
       );
       setEditingId(null);
@@ -79,7 +127,7 @@ export default function Employee() {
     setEmployees((prev) => prev.filter((emp) => emp.id !== id));
   };
 
-  // 🔍 Filter employees by ID, name, or age
+  // 🔍 Filter employees
   const filteredEmployees = employees.filter((emp) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -88,6 +136,12 @@ export default function Employee() {
       emp.age.toString().includes(query)
     );
   });
+
+  // ✅ Pagination logic
+  const indexOfLast = currentPage * employeesPerPage;
+  const indexOfFirst = indexOfLast - employeesPerPage;
+  const currentEmployees = filteredEmployees.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
 
   return (
     <div className={styles.container}>
@@ -99,7 +153,10 @@ export default function Employee() {
         placeholder="Search by ID, Name or Age..."
         className={styles.search}
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(e) => {
+          setSearchQuery(e.target.value);
+          setCurrentPage(1); // reset to page 1 on search
+        }}
       />
 
       {/* Add / Edit Form */}
@@ -148,7 +205,13 @@ export default function Employee() {
             type="button"
             className={`${styles.button} ${styles.cancelButton}`}
             onClick={() => {
-              setFormData({ name: "", role: "", age: "", state: "", address: "" });
+              setFormData({
+                name: "",
+                role: "",
+                age: "",
+                state: "",
+                address: "",
+              });
               setEditingId(null);
             }}
           >
@@ -159,7 +222,7 @@ export default function Employee() {
 
       {/* Employee Grid */}
       <div className={styles.grid}>
-        {filteredEmployees.map((emp) => (
+        {currentEmployees.map((emp) => (
           <div key={emp.id} className={styles.card}>
             <div className={styles.name}>
               {emp.name} <span className={styles.empId}>({emp.id})</span>
@@ -183,6 +246,27 @@ export default function Employee() {
           </div>
         ))}
       </div>
+
+      {/* ✅ Pagination Controls */}
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => p - 1)}
+          >
+            Prev
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => p + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

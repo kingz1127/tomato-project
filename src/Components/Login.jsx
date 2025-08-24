@@ -88,27 +88,27 @@ export default function Login() {
     });
   }
 
-function handleSaveNewPassword() {
-  const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
-  const updatedUsers = storedUsers.map((user) =>
-    user.email === email ? { ...user, password: newPassword } : user
-  );
+  function handleSaveNewPassword() {
+    const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
+    const updatedUsers = storedUsers.map((user) =>
+      user.email === email ? { ...user, password: newPassword } : user
+    );
 
-  localStorage.setItem("myUsers", JSON.stringify(updatedUsers));
+    localStorage.setItem("myUsers", JSON.stringify(updatedUsers));
 
-  // ✅ auto-fill password input
-  setPassword(newPassword);
+    // ✅ auto-fill password input
+    setPassword(newPassword);
 
-  // ✅ show success message
-  setError({
-    email: "",
-    password: "",
-    general: "✅ Password updated! You can now log in with your new password.",
-  });
+    // ✅ show success message
+    setError({
+      email: "",
+      password: "",
+      general:
+        "✅ Password updated! You can now log in with your new password.",
+    });
 
-  setShowPasswordReset(false);
-}
-
+    setShowPasswordReset(false);
+  }
 
   return (
     <>
@@ -118,12 +118,17 @@ function handleSaveNewPassword() {
 
       <div className={styles.signUpBody}>
         <div className={styles.welcome}>
-          <img src="/food.jpg" alt="" height="450" width="350" />
+          <img src="src/Components/food.jpg" alt="" height="450" width="350" />
         </div>
 
         <div className={styles.signUp}>
           <h1 className={styles.signUph1}>
-            <img src="/restaurantLogo.jpg" alt="" width="40" height="40" />
+            <img
+              src="src/Components/restaurantLogo.jpg"
+              alt=""
+              width="40"
+              height="40"
+            />
             Login
           </h1>
 

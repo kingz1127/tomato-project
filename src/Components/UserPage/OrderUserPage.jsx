@@ -31,10 +31,30 @@ export default function OrderUserPage() {
     );
     if (savedOrder) {
       const parsedOrder = JSON.parse(savedOrder);
+
+      // Handle both product(s)
       if (parsedOrder.products) setProducts(parsedOrder.products);
       else if (parsedOrder.product) setProducts([parsedOrder.product]);
 
-      setTotalAmount(parsedOrder.total || 0);
+      // ✅ Make sure we always calculate total
+      if (parsedOrder.total) {
+        setTotalAmount(parsedOrder.total);
+      } else if (parsedOrder.amount) {
+        setTotalAmount(parsedOrder.amount);
+      } else if (parsedOrder.products) {
+        // fallback: calculate from products
+        const calcTotal = parsedOrder.products.reduce(
+          (sum, p) => sum + (p.price || 0) * (p.quantity || 1),
+          0
+        );
+        setTotalAmount(calcTotal);
+      } else if (parsedOrder.product) {
+        setTotalAmount(
+          (parsedOrder.product.price || 0) * (parsedOrder.product.quantity || 1)
+        );
+      } else {
+        setTotalAmount(0);
+      }
     }
   }, []);
 
@@ -59,18 +79,22 @@ export default function OrderUserPage() {
 
     const orderId = generateOrderId();
 
-    // ✅ Save order with ID to localStorage
+    // ✅ Save order with ID and default status "Pending" to localStorage
     const newOrder = {
       orderId,
       products,
-      total: totalAmount,
+      total: totalAmount, // always use totalAmount from state
       email: loggedInUser.email,
       date: new Date().toISOString(),
+      status: "Pending",
     };
 
     let allOrders = JSON.parse(localStorage.getItem("orders")) || [];
     allOrders.push(newOrder);
     localStorage.setItem("orders", JSON.stringify(allOrders));
+
+    // ✅ Also clear order summary for that user (optional)
+    localStorage.removeItem(`orderSummary_${loggedInUser.email}`);
 
     // ✅ Alert with order ID
     alert(
@@ -153,7 +177,7 @@ export default function OrderUserPage() {
             <p>Thank you for your order!</p>
             <button onClick={handleCloseModal}>Close</button>
             <p>
-              Your order is in transit _ _ _
+              Your order is in transit _ _ _{" "}
               <FcInTransit className={styles.TransactCar} />
             </p>
           </div>

@@ -6,7 +6,7 @@ import NavbarHome from "./NavbarHome";
 
 const Placeorder = () => {
   const location = useLocation();
-  const { products = [], totalAmount: navTotal = 0 } = location.state || {};
+  const { products = [] } = location.state || {};
 
   const [orderProducts, setOrderProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -80,11 +80,13 @@ const Placeorder = () => {
 
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedInUser) {
+      // ✅ Save delivery info
       localStorage.setItem(
         `deliveryInfo_${loggedInUser.email}`,
         JSON.stringify(formData)
       );
 
+      // ✅ Calculate totals
       const subtotal = orderProducts.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
@@ -125,10 +127,16 @@ const Placeorder = () => {
       });
       localStorage.setItem("myUsers", JSON.stringify(users));
 
-      // ✅ Alert Order ID
-      // alert(`Your Order ID is: ${orderId}. Please keep it safe.`);
+      // ✅ Save order summary for OrderUserPage (Payment)
+      localStorage.setItem(
+        `orderSummary_${loggedInUser.email}`,
+        JSON.stringify({
+          products: orderProducts,
+          total, // <-- ✅ ensures payment page reads correct total
+        })
+      );
 
-      // ✅ Redirect to order user page
+      // ✅ Redirect to payment page
       window.location.href = "/orderuserpage";
     }
   };

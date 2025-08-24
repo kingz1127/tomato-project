@@ -13,28 +13,61 @@ import { CiSettings } from "react-icons/ci";
 export default function AdminDash() {
   const [customers, setCustomers] = useState(0);
   const [products, setProducts] = useState(0);
+  const [employees, setEmployees] = useState(0);
+  const [orders, setOrders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
 
+  // Load customers
   const loadCustomers = () => {
     const storedUsers = JSON.parse(localStorage.getItem("myUsers")) || [];
     setCustomers(storedUsers.length);
   };
 
+  // Load products
   const loadProducts = () => {
-    const storedUsers = JSON.parse(localStorage.getItem("products")) || [];
-    setProducts(storedUsers.length);
+    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    setProducts(storedProducts.length);
+  };
+
+  // Load employees
+  const loadEmployees = () => {
+    const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
+    setEmployees(storedEmployees.length);
+  };
+
+  // ✅ Load orders (fixed to use allOrders)
+  const loadOrders = () => {
+    const storedOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
+    setOrders(storedOrders);
   };
 
   useEffect(() => {
     loadCustomers();
     loadProducts();
+    loadEmployees();
+    loadOrders();
 
-    // Listen for storage changes
-    window.addEventListener("storage", loadCustomers);
+    // Sync across tabs
+    const handleStorage = () => {
+      loadCustomers();
+      loadProducts();
+      loadEmployees();
+      loadOrders();
+    };
+
+    window.addEventListener("storage", handleStorage);
 
     return () => {
-      window.removeEventListener("storage", loadCustomers);
+      window.removeEventListener("storage", handleStorage);
     };
   }, []);
+
+  // Pagination logic (not used visibly yet but ready)
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   return (
     <>
@@ -60,7 +93,7 @@ export default function AdminDash() {
             <BiCartAdd className={styles.BiCartAdd} />
           </div>
           <div className={styles.h1p}>
-            <h1>Orders + </h1>
+            <h1>{orders.length} +</h1>
             <p>Total Orders</p>
           </div>
         </div>
@@ -90,7 +123,7 @@ export default function AdminDash() {
             <BsPersonWorkspace className={styles.BiCartAdd} />
           </div>
           <div className={styles.h1p}>
-            <h1>{employees} +</h1> {/* ✅ now dynamic */}
+            <h1>{employees} +</h1>
             <p>Total Employees</p>
           </div>
         </div>

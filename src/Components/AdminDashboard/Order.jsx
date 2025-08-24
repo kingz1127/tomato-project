@@ -6,9 +6,10 @@ export default function Order() {
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 7;
 
+  // ✅ Load orders from localStorage
   useEffect(() => {
     const savedOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
-    setOrders(savedOrders.reverse()); // Latest first
+    setOrders(savedOrders.reverse()); // latest first
   }, []);
 
   // ✅ Handle status change and persist in localStorage
@@ -17,6 +18,7 @@ export default function Order() {
       order.id === orderId ? { ...order, status: newStatus } : order
     );
     setOrders(updatedOrders);
+    // store reversed again so newest stays at top
     localStorage.setItem(
       "allOrders",
       JSON.stringify([...updatedOrders].reverse())
@@ -29,7 +31,7 @@ export default function Order() {
     setOrders([]);
   };
 
-  // ✅ Filter orders by ID
+  // ✅ Filter by Order ID
   const filteredOrders = orders.filter((order) =>
     order.id?.toString().includes(searchId.trim())
   );
@@ -41,14 +43,13 @@ export default function Order() {
     indexOfFirstOrder,
     indexOfLastOrder
   );
-
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
   return (
     <div className="admin-orders">
       <h1>
         All User Orders <br />
-        <span>{orders.length}</span>
+        <span>{filteredOrders.length}</span>
       </h1>
 
       {/* Search by Order ID */}
@@ -58,7 +59,7 @@ export default function Order() {
         value={searchId}
         onChange={(e) => {
           setSearchId(e.target.value);
-          setCurrentPage(1); // Reset to page 1 on search
+          setCurrentPage(1); // reset to page 1 when searching
         }}
         style={{ marginBottom: "10px", padding: "5px", width: "250px" }}
       />
@@ -145,7 +146,7 @@ export default function Order() {
         </div>
       )}
 
-      {/* <button
+      <button
         onClick={handleClearAll}
         style={{
           marginTop: "20px",
@@ -155,7 +156,7 @@ export default function Order() {
         }}
       >
         Clear all orders
-      </button> */}
+      </button>
     </div>
   );
 }
