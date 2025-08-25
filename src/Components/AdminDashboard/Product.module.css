@@ -65,3 +65,8 @@
   height: 3rem;
   background-color: rgb(58, 106, 236);
 }
+.back {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}

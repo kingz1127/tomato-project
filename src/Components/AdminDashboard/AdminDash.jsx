@@ -15,6 +15,7 @@ export default function AdminDash() {
   const [products, setProducts] = useState(0);
   const [employees, setEmployees] = useState(0);
   const [orders, setOrders] = useState([]);
+  const [bills, setBills] = useState(0); // ✅ new state
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 10;
 
@@ -36,10 +37,16 @@ export default function AdminDash() {
     setEmployees(storedEmployees.length);
   };
 
-  // ✅ Load orders (fixed to use allOrders)
+  // Load orders
   const loadOrders = () => {
     const storedOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
     setOrders(storedOrders);
+  };
+
+  // ✅ Load bills
+  const loadBills = () => {
+    const storedBills = JSON.parse(localStorage.getItem("bills")) || [];
+    setBills(storedBills.length);
   };
 
   useEffect(() => {
@@ -47,6 +54,7 @@ export default function AdminDash() {
     loadProducts();
     loadEmployees();
     loadOrders();
+    loadBills();
 
     // Sync across tabs
     const handleStorage = () => {
@@ -54,6 +62,7 @@ export default function AdminDash() {
       loadProducts();
       loadEmployees();
       loadOrders();
+      loadBills();
     };
 
     window.addEventListener("storage", handleStorage);
@@ -63,7 +72,7 @@ export default function AdminDash() {
     };
   }, []);
 
-  // Pagination logic (not used visibly yet but ready)
+  // Pagination logic
   const totalPages = Math.ceil(orders.length / ordersPerPage);
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -128,12 +137,13 @@ export default function AdminDash() {
           </div>
         </div>
 
+        {/* ✅ Total Bills */}
         <div className={styles.order}>
           <div className={styles.cartOrder}>
             <RiBillLine className={styles.BiCartAdd} />
           </div>
           <div className={styles.h1p}>
-            <h1>Billings +</h1>
+            <h1>{bills} +</h1>
             <p>Total Bills</p>
           </div>
         </div>

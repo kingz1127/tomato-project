@@ -295,28 +295,51 @@ export default function Product() {
           }}
         >
           <div
+            // className={styles.back}
             style={{
               backgroundColor: "white",
               padding: "30px",
               borderRadius: "8px",
               minWidth: "400px",
               maxWidth: "500px",
+              // display: "flex",
+              // flexDirection: "column",
             }}
           >
-            <h3>{editIndex !== null ? "Edit Product" : "Add Product"}</h3>
-            <div style={{ marginBottom: "15px" }}>
+            <h3 style={{ marginBottom: "1rem" }}>
+              {editIndex !== null ? "Edit Product" : "Add Product"}
+            </h3>
+            <div style={{ marginBottom: "15px" }} className={styles.back}>
               <input
                 name="name"
                 placeholder="Product Name"
                 value={form.name}
                 onChange={handleInputChange}
+                style={{
+                  width: "100%",
+                  height: "3.5rem",
+                  paddingLeft: "3px",
+                  borderRadius: "4px",
+                  fontSize: "1.7rem",
+                  marginBottom: "1rem",
+                }}
               />
+              <br />
               <input
                 name="image"
                 placeholder="Image URL"
                 value={form.image}
                 onChange={handleInputChange}
+                style={{
+                  width: "100%",
+                  height: "3.5rem",
+                  paddingLeft: "3px",
+                  borderRadius: "4px",
+                  fontSize: "1.7rem",
+                  marginBottom: "1rem",
+                }}
               />
+              <br />
               <input
                 name="price"
                 placeholder="Price"
@@ -324,25 +347,60 @@ export default function Product() {
                 step="0.01"
                 value={form.price}
                 onChange={handleInputChange}
+                style={{
+                  width: "100%",
+                  height: "3.5rem",
+                  paddingLeft: "3px",
+                  borderRadius: "4px",
+                  fontSize: "1.7rem",
+                  marginBottom: "1rem",
+                }}
               />
+              <br />
               <input
                 name="quantity"
                 placeholder="Quantity"
                 type="number"
                 value={form.quantity}
                 onChange={handleInputChange}
+                style={{
+                  width: "100%",
+                  height: "3.5rem",
+                  paddingLeft: "3px",
+                  borderRadius: "4px",
+                  fontSize: "1.7rem",
+                  marginBottom: "1rem",
+                }}
               />
+              <br />
               <input
                 name="description"
                 placeholder="Description"
                 type="text"
                 value={form.description}
                 onChange={handleInputChange}
+                style={{
+                  width: "100%",
+                  height: "3.5rem",
+                  paddingLeft: "3px",
+                  borderRadius: "4px",
+                  fontSize: "1.7rem",
+                  marginBottom: "1rem",
+                }}
               />
+              <br />
               <select
                 name="category"
                 value={form.category}
                 onChange={handleInputChange}
+                style={{
+                  width: "100%",
+                  height: "3.5rem",
+                  paddingLeft: "3px",
+                  borderRadius: "4px",
+                  fontSize: "1.7rem",
+                  marginBottom: "1rem",
+                }}
               >
                 <option value="">Select Category</option>
                 <option value="Salad">Salad</option>
