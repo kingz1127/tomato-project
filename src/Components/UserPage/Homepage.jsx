@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 import Footer from "../LandingPage/Footer";
-import Header from "../LandingPage/header";
+import Header from "../LandingPage/Header";
 import ExploreMenu from "../LandingPage/ExploreMenu";
 import AppDownload from "../LandingPage/AppDownload";
 import stylesp from "./Homepage.module.css";
