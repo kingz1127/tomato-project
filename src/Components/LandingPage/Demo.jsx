@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
-import Header from "./header";
+import Header from "./Header";
 import styles from "./Demo.module.css";
 import ExploreMenu from "./ExploreMenu";
 import Footer from "./Footer";
