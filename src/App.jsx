@@ -16,8 +16,9 @@ import AdminDash from "./Components/AdminDashboard/AdminDash.jsx";
 import { StoreContextProvider } from "./Components/context/StoreContext.jsx";
 import Homepage from "./Components/UserPage/Homepage.jsx";
 import Cart from "./Components/UserPage/Cart.jsx";
-import Placeorder from "./Components/UserPage/Placeorder.jsx"; // or PlaceOrder.jsx if that's the actual filename
+// or PlaceOrder.jsx if that's the actual filename
 import OrderUserPage from "./Components/UserPage/OrderUserPage.jsx";
+import Placeorder from "./Components/UserPage/Placeorder.jsx";
 export default function App() {
   return (
     <StoreContextProvider>
