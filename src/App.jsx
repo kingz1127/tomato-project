@@ -18,7 +18,7 @@ import Homepage from "./Components/UserPage/Homepage.jsx";
 import Cart from "./Components/UserPage/Cart.jsx";
 // or PlaceOrder.jsx if that's the actual filename
 import OrderUserPage from "./Components/UserPage/OrderUserPage.jsx";
-import PlaceOrder from "./Components/UserPage/Placeorder.jsx";
+import PlaceOrder from "./Components/UserPage/placeorder.jsx";
 // import Placeorder from "./Components/UserPage/Placeorder.jsx";
 export default function App() {
   return (
