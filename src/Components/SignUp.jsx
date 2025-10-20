@@ -73,13 +73,13 @@ export default function SignUp() {
       </div>
       <div className={styles.signUpBody}>
         <div className={styles.welcome}>
-          <img src="src/Components/food.jpg" alt="" height="450" width="350" />
+          <img src="/food.jpg" alt="" height="450" width="350" />
         </div>
 
         <div className={styles.signUp}>
           <h1 className={styles.signUph1}>
             <img
-              src="src/Components/restaurantLogo.jpg"
+              src="/restaurantLogo.jpg"
               alt=""
               width="40"
               height="40"
