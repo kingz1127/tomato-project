@@ -17,7 +17,7 @@ import AdminDash from "./Components/AdminDashboard/AdminDash";
 
 import { StoreContextProvider } from "./Components/context/StoreContext";
 import Homepage from "./Components/UserPage/Homepage";
-import Cart from "./Components/UserPage/cart";
+import Cart from "./Components/UserPage/Cart";
 import Placeorder from "./Components/UserPage/Placeorder";
 import OrderUserPage from "./Components/UserPage/OrderUserPage";
 
