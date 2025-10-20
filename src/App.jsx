@@ -1,26 +1,23 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./index.css";
-import SignUp from "./Components/SignUp";
-import Login from "./Components/Login";
-import Demo from "./Components/LandingPage/Demo";
-import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
-import Settings from "./Components/AdminDashboard/Settings";
-import Order from "./Components/AdminDashboard/Order";
-import Product from "./Components/AdminDashboard/Product";
-import Customer from "./Components/AdminDashboard/Customer";
-import Employee from "./Components/AdminDashboard/Employee";
-import Billing from "./Components/AdminDashboard/Billing";
-import Analytics from "./Components/AdminDashboard/Analytics";
-import Help from "./Components/AdminDashboard/Help";
-import Logout from "./Components/AdminDashboard/Logout";
-import AdminDash from "./Components/AdminDashboard/AdminDash";
+import SignUp from "./Components/SignUp.jsx";
+import Login from "./Components/Login.jsx";
+import Demo from "./Components/LandingPage/Demo.jsx";
+import AdminDashboard from "./Components/AdminDashboard/AdminDashboard.jsx";
+import Settings from "./Components/AdminDashboard/Settings.jsx";
+import Order from "./Components/AdminDashboard/Order.jsx";
+import Product from "./Components/AdminDashboard/Product.jsx";
+import Customer from "./Components/AdminDashboard/Customer.jsx";
+import Employee from "./Components/AdminDashboard/Employee.jsx";
+import Billing from "./Components/AdminDashboard/Billing.jsx";
+import Analytics from "./Components/AdminDashboard/Analytics.jsx";
+import Help from "./Components/AdminDashboard/Help.jsx";
+import Logout from "./Components/AdminDashboard/Logout.jsx";
+import AdminDash from "./Components/AdminDashboard/AdminDash.jsx";
 
-import { StoreContextProvider } from "./Components/context/StoreContext";
-import Homepage from "./Components/UserPage/Homepage";
-import Cart from "./Components/UserPage/Cart";
-import Placeorder from "./Components/UserPage/Placeorder";
-import OrderUserPage from "./Components/UserPage/OrderUserPage";
-
+import { StoreContextProvider } from "./Components/context/StoreContext.jsx";
+import Homepage from "./Components/UserPage/Homepage.jsx";
+import Cart from "./Components/UserPage/Cart.jsx";
+import Placeorder from "./Components/UserPage/Placeorder.jsx"; // or PlaceOrder.jsx if that's the actual filename
+import OrderUserPage from "./Components/UserPage/OrderUserPage.jsx";
 export default function App() {
   return (
     <StoreContextProvider>
