@@ -4,7 +4,7 @@ import "./placeorder.css";
 import Footer from "../LandingPage/Footer";
 import NavbarHome from "./NavbarHome";
 
-const Placeorder = () => {
+const PlaceOrder = () => {
   const location = useLocation();
   const { products = [] } = location.state || {};
 
@@ -272,4 +272,4 @@ const Placeorder = () => {
   );
 };
 
-export default Placeorder;
+export default PlaceOrder;

@@ -18,7 +18,8 @@ import Homepage from "./Components/UserPage/Homepage.jsx";
 import Cart from "./Components/UserPage/Cart.jsx";
 // or PlaceOrder.jsx if that's the actual filename
 import OrderUserPage from "./Components/UserPage/OrderUserPage.jsx";
-import Placeorder from "./Components/UserPage/Placeorder.jsx";
+import PlaceOrder from "./Components/UserPage/Placeorder.jsx";
+// import Placeorder from "./Components/UserPage/Placeorder.jsx";
 export default function App() {
   return (
     <StoreContextProvider>
@@ -29,7 +30,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/cart" element={<Cart />} /> {/* Add cart route */}
-          <Route path="/placeorder" element={<Placeorder />} />
+          <Route path="/placeorder" element={<PlaceOrder />} />
           <Route path="/orderUserPage" element={<OrderUserPage />} />
           <Route path="/adminDashboard" element={<AdminDashboard />}>
             <Route path="adminDash" element={<AdminDash />} />
